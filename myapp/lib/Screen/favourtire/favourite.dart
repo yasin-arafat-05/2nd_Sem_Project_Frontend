@@ -25,7 +25,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         Provider.of<FavouriteProductProvider>(context, listen: false);
     bestSellingProviderModel =
         Provider.of<BestSellingProvider>(context, listen: false);
-    functionCall();
+
     fb = Favourite(bestSellingProviderModel);
   }
 
@@ -84,7 +84,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    height: 130,
+                                    height: 180,
                                     color: Colors.red.withOpacity(0.1),
                                     child: Image.network(
                                       'http://${IP.ip}/images/${item['Product Image']}',
@@ -119,7 +119,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                                 style: const TextStyle(
                                                   color: Colors.red,
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                             ],

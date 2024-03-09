@@ -266,7 +266,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 //------------------draw the close button-----------------------
                 const Positioned(
                   left: 160,
-                  bottom: -100,
+                  bottom: -80,
                   child: CircleAvatar(
                     maxRadius: 15,
                     backgroundColor: Colors.white,

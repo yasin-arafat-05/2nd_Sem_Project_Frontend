@@ -80,97 +80,104 @@ class _SoppingCartState extends State<SoppingCart> {
                                     width: 3,
                                   ),
                                 ),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Container(
-                                        height: 130,
-                                        color: Colors.red.withOpacity(0.1),
-                                        child: Image.network(
-                                          'http://${IP.ip}/images/${item['Product Image']}',
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: SizedBox(
-                                        height: 140,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  //------------------------Get Product name-------------------
-                                                  Text(
-                                                    item["Product Name"],
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  //-------------------Get price -------------------
-                                                  Text(
-                                                    " ${item["New Price"]} \$",
-                                                    style: const TextStyle(
-                                                      color: Colors.red,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              //--------------------Favourite OR NOT ----------------
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () {},
-                                                    icon: Icon(
-                                                      Iconsax.heart5,
-                                                      size: 30,
-                                                      color: item["Favourite"]
-                                                          ? Colors.red
-                                                          : Colors.black,
-                                                    ),
-                                                  ),
-                                                  //--------------------Delete form favourite list----------------
-                                                  CupertinoButton(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      child: const CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        maxRadius: 13,
-                                                        child: Icon(
-                                                          Icons.delete,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          cart.removeFromCart(
-                                                              item["id"]);
-                                                        });
-                                                      }),
-                                                ],
-                                              ),
-                                            ],
+                                child: SingleChildScrollView(
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: SizedBox(
+                                          height: 150,
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10),
+                                            child: Image.network(
+                                              'http://${IP.ip}/images/${item['Product Image']}',
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      Expanded(
+                                        flex: 2,
+                                        child: SizedBox(
+                                          height: 140,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    //------------------------Get Product name-------------------
+                                                    Text(
+                                                      item["Product Name"],
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    //-------------------Get price -------------------
+                                                    Text(
+                                                      " ${item["New Price"]} \$",
+                                                      style: const TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                //--------------------Favourite OR NOT ----------------
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    IconButton(
+                                                      onPressed: () {},
+                                                      icon: Icon(
+                                                        Iconsax.heart5,
+                                                        size: 30,
+                                                        color: item["Favourite"]
+                                                            ? Colors.red
+                                                            : Colors.black,
+                                                      ),
+                                                    ),
+                                                    //--------------------Delete form favourite list----------------
+                                                    CupertinoButton(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(0),
+                                                        child:
+                                                            const CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          maxRadius: 13,
+                                                          child: Icon(
+                                                            Icons.delete,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            cart.removeFromCart(
+                                                                item["id"]);
+                                                          });
+                                                        }),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },

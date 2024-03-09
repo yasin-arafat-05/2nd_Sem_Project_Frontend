@@ -55,6 +55,7 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: no_leading_underscores_for_local_identifiers
     File? _imageFile;
     final UploadProductImage uploadProductImage = UploadProductImage();
     return Scaffold(

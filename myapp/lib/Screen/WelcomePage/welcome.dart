@@ -61,7 +61,7 @@ class _WelcomeState extends State<Welcome> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 5, top: 10),
                       child: Text(
-                          'Welcome to GalactiCart, where the cosmic meets commerce! Embark on an interstellar shopping journey with our e-commerce platform, offering a stellar array of products from across the universe.'),
+                          'Welcome to GalactiCart, where the cosmic meets commerce! Embark on an interstellar shopping journey with our e-shop platform, offering a stellar array of products from across the universe.'),
                     ),
                   ),
                   const Spacer(

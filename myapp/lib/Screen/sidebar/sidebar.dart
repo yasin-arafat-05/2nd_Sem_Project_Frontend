@@ -230,7 +230,7 @@ class _SideBarState extends State<SideBar> {
                         MaterialPageRoute(
                           builder: (context) {
                             return const ConnectSideBarAndMenuBar(
-                                initialIndex: 3);
+                                initialIndex: 4);
                           },
                         ),
                       );
@@ -313,7 +313,7 @@ class custom_list_tile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        child: Image.network(
+        backgroundImage: NetworkImage(
             'http://${IP.ip}/images/${profileProvider.businessUser['Business Image']}'),
       ),
       title: Text(
