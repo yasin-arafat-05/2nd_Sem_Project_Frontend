@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
+import 'package:myapp/Screen/profile/product_pic_back.dart';
 import 'package:myapp/Screen/profile/update_product_back.dart';
+import 'package:myapp/ip_address.dart';
 
 class EditProduct extends StatefulWidget {
   EditProduct(
@@ -50,6 +55,8 @@ class _EditProductState extends State<EditProduct> {
 
   @override
   Widget build(BuildContext context) {
+    File? _imageFile;
+    final UploadProductImage uploadProductImage = UploadProductImage();
     return Scaffold(
       appBar: AppBar(
         elevation: 10,
@@ -73,7 +80,7 @@ class _EditProductState extends State<EditProduct> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Image.network(
-                      'http://192.168.0.176:8000/images/${widget.image}',
+                      'http://${IP.ip}/images/${widget.image}',
                     ),
                   ),
                 ),
@@ -83,7 +90,16 @@ class _EditProductState extends State<EditProduct> {
                 Center(
                   child: SizedBox(
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final picker = ImagePicker();
+                        final pickedImage =
+                            await picker.pickImage(source: ImageSource.gallery);
+                        if (pickedImage != null) {
+                          _imageFile = File(pickedImage.path);
+                        }
+                        uploadProductImage.uploadProductImage(
+                            widget.id, _imageFile!);
+                      },
                       icon: const Icon(
                         Icons.edit,
                         color: Color.fromARGB(255, 63, 58, 58),

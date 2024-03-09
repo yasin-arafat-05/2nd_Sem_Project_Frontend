@@ -80,12 +80,12 @@ class _UserProfileState extends State<UserProfile> {
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        showGeneralDialog(
-                          barrierLabel: "Update Profile",
-                          barrierDismissible: true,
-                          context: context,
-                          pageBuilder: (context, __, ___) =>
-                              const EditProfile(),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const EditProfile();
+                            },
+                          ),
                         );
                       },
                       icon: const Icon(
@@ -253,8 +253,12 @@ class _UserProfileState extends State<UserProfile> {
                               const SizedBox(
                                 height: 2,
                               ),
-                              Image.network(
-                                'http://${IP.ip}/images/${element['Product Image']}',
+                              SizedBox(
+                                height: 400,
+                                width: double.infinity,
+                                child: Image.network(
+                                  'http://${IP.ip}/images/${element['Product Image']}',
+                                ),
                               ),
                               const SizedBox(
                                 height: 2.0,

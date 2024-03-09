@@ -227,63 +227,70 @@ class _HOMETWOState extends State<HOMETWO> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
+                                  Stack(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          height: 20,
-                                          width: 35,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5)),
-                                          ),
-                                          //__________________________ Discount percentange _____________________
-
-                                          child: Text(
-                                            "${per.toString()}%",
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
+                                      //_______________image_______
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          'http://${IP.ip}/images/${element['image']}',
+                                          height: 220,
+                                          width: double.infinity,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      const Spacer(),
-                                      //__________________________ Favourite Icon _____________________
-                                      GestureDetector(
-                                        onTap: () {
-                                          element['favourite']
-                                              ? fb.removeFromFavourite(
-                                                  element['id'])
-                                              : fb.addToFavourite(
-                                                  element['id']);
-                                        },
-                                        //_____minimize the cost using provider and consumer____
-                                        child: Consumer<BestSellingProvider>(
-                                          builder: (context, fb, child) {
-                                            return Icon(
-                                              Iconsax.heart5,
-                                              size: 40,
-                                              color: element['favourite']
-                                                  ? Colors.deepOrangeAccent
-                                                  : Colors.black,
-                                            );
-                                          },
-                                        ),
+                                      //_______________Product price and favourite ________
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(5),
+                                            child: Container(
+                                              height: 20,
+                                              width: 35,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5)),
+                                              ),
+                                              //__________________________ Discount percentange _____________________
+
+                                              child: Text(
+                                                "${per.toString()}%",
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ),
+                                          const Spacer(),
+                                          //__________________________ Favourite Icon _____________________
+                                          GestureDetector(
+                                            onTap: () {
+                                              element['favourite']
+                                                  ? fb.removeFromFavourite(
+                                                      element['id'])
+                                                  : fb.addToFavourite(
+                                                      element['id']);
+                                            },
+                                            //_____minimize the cost using provider and consumer____
+                                            child:
+                                                Consumer<BestSellingProvider>(
+                                              builder: (context, fb, child) {
+                                                return Icon(
+                                                  Iconsax.heart5,
+                                                  size: 40,
+                                                  color: element['favourite']
+                                                      ? Colors.deepOrangeAccent
+                                                      : Colors.black,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.network(
-                                      'http://${IP.ip}/images/${element['image']}',
-                                      height: 150,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
                                   ),
                                   Stack(
                                     clipBehavior: Clip.none,
@@ -330,7 +337,6 @@ class _HOMETWOState extends State<HOMETWO> {
       ),
     );
   }
-
 
 //_________________________________SHORTEN THE CODE_____________________________
 //________________________________Custom Search Bar__________________________
