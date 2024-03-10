@@ -5,7 +5,7 @@ import 'package:myapp/ip_address.dart';
 class CategoriesData {
   // ignore: non_constant_identifier_names
   Future<List<dynamic>> Categories() async {
-    const url = "http://${IP.ip}/Categorie";
+    const url = "http://${IP.ip}/Categories";
 
     final response = await http.get(Uri.parse(url));
 

@@ -89,32 +89,6 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
                         ),
                       ),
                     ),
-                    // actions: [
-                    //   //----- Bages -> Ex: facebook icon,message,notification etc ----
-                    //   Padding(
-                    //     padding: const EdgeInsets.only(right: 20),
-                    //     child: bage.Badge(
-                    //       badgeStyle: const bage.BadgeStyle(
-                    //         badgeColor: Colors.white,
-                    //       ),
-                    //       badgeContent: Text(
-                    //         cartProductProvider.cartProduct.length.toString(),
-                    //         style: const TextStyle(
-                    //           color: Color.fromARGB(255, 2, 5, 37),
-                    //         ),
-                    //       ),
-                    //       position:
-                    //           bage.BadgePosition.custom(start: 15, bottom: 10),
-                    //       child: GestureDetector(
-                    //         onTap: () {},
-                    //         child: const Icon(
-                    //           Iconsax.shopping_cart,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ],
                   ),
                   //---------------------------- Body of the Scaffold --------------
                   body: Stack(

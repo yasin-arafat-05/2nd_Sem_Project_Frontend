@@ -25,7 +25,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         Provider.of<FavouriteProductProvider>(context, listen: false);
     bestSellingProviderModel =
         Provider.of<BestSellingProvider>(context, listen: false);
-
+    functionCall();
     fb = Favourite(bestSellingProviderModel);
   }
 

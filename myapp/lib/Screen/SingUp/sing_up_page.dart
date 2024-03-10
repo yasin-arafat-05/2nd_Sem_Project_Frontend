@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:myapp/Screen/SingUp/sign_up_back.dart';
+import 'package:myapp/Screen/WelcomePage/welcome.dart';
 import 'package:myapp/alert_mesg.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -216,12 +217,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                     String result = await res;
                                     Map<String, dynamic> finalResult =
                                         json.decode(result);
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => Message(
-                                        result: finalResult["detail"],
-                                      ),
+                                    showMessge(
+                                      finalResult["detail"],
                                     );
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) {
+                                        return const Welcome();
+                                      },
+                                    ));
                                   },
                                   icon: const Icon(
                                     Icons.arrow_forward_outlined,
