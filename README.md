@@ -13,10 +13,10 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 <html>
 <head>
 <style>
-grid {
+grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
+  grid-gap: 30px;
 }
 .grid img {
   width: 100%;
@@ -27,6 +27,7 @@ grid {
 <div class="grid">
   <img src="/picture_git_md/01_home_page.jpeg"  width="300" height="600">
   <img src="/picture_git_md/09_side_bar.jpeg" width="300" height="600">
+  <img src="/picture_git_md/11_welcome_page.jpeg" width="300" height="600">
 
 </div>
 </body>
@@ -37,19 +38,6 @@ grid {
 # Sign Up, Sign In and Single Product Details
 ---
 
-<table>
-    <tr >
-        <td>
-            <img src="/picture_git_md/10_sign_up.jpeg"  width="300" height="600">
-         </td>
-        <td>
-            <img src="/picture_git_md/12_sign_in.jpeg"  width="300" height="600">
-        </td>
-        <td>
-            <img src="/picture_git_md/04_product_details.jpeg"  width="300" height="600">
-        </td>
-    </tr>
-</table>
 
 
 
