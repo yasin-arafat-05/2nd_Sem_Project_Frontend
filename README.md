@@ -9,7 +9,7 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 # Home Page:
 ---
 
-[Home_Page](/picture_git_md/01_home_page.jpeg)
+![Home_Page](/picture_git_md/01_home_page.jpeg)
 
 
 
@@ -17,28 +17,28 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 # Side Bar:
 ---
 
-[side](/picture_git_md/09_side_bar.jpeg)
+![side](/picture_git_md/09_side_bar.jpeg)
 
 
 ---
 # Welcome Page:
 ---
 
-[welcome](/picture_git_md/11_welcome_page.jpeg)
+![welcome](/picture_git_md/11_welcome_page.jpeg)
 
 
 ---
 # Sign Up:
 ---
 
-[sign_up](/picture_git_md/10_sign_up.jpeg)
+![sign_up](/picture_git_md/10_sign_up.jpeg)
 
 
 ---
 # Log In:
 ---
 
-<img src="/picture_git_md/12_sign_in.jpeg"  width="600" height="900">
+![log_in](/picture_git_md/12_sign_in.jpeg)
 
 
 
