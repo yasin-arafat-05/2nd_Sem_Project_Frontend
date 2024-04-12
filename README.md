@@ -10,20 +10,28 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 ---
 
 
+<html>
+<head>
+<style>
+grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.grid img {
+  width: 100%;
+}
+</style>
 
-<table>
-    <tr>
-        <td>
-            <img  src="/picture_git_md/01_home_page.jpeg" width="300" height="600" style="margin: 10px;">
-        </td>
-        <td>
-            <img src="/picture_git_md/09_side_bar.jpeg" width="300" height="600" style="margin: 10px;">
-        </td>
-        <td>
-            <img src="/picture_git_md/11_welcome_page.jpeg" width="300" height="600"style="margin: 10px;" >
-        </td>
-    </tr>
-</table>
+</head>
+<body>
+<div class="grid">
+  <img src="/picture_git_md/01_home_page.jpeg">
+  <img src="/picture_git_md/09_side_bar.jpeg">
+
+</div>
+</body>
+</html>
 
 
 ---
