@@ -8,23 +8,25 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 ---
 # Home Page, Side Bar And Welcome Page
 ---
+<style>
+    td {
+        padding: 10px; /* Adjust this value to set the desired margin around the images */
+    }
+</style>
+
 <table>
-    <tr >
+    <tr>
         <td>
-            <img src="/picture_git_md/01_home_page.jpeg"  width="300" height="600">
-         </td>
-         <br>
-        <td>
-            <img src="/picture_git_md/09_side_bar.jpeg"  width="300" height="600">
+            <img src="/picture_git_md/01_home_page.jpeg" width="300" height="600">
         </td>
-        <br>
         <td>
-            <img src="/picture_git_md/11_welcome_page.jpeg"  width="300" height="600">
+            <img src="/picture_git_md/09_side_bar.jpeg" width="300" height="600">
+        </td>
+        <td>
+            <img src="/picture_git_md/11_welcome_page.jpeg" width="300" height="600">
         </td>
     </tr>
 </table>
-
-
 
 
 ---
