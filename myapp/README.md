@@ -1,16 +1,47 @@
-# myapp
 
-A new Flutter project.
+### `About this app:`
+- only frontend here (flutter)
+- Backend with python(fastapi) 
 
-## Getting Started
+Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2nd_Sem_Project_Backend)
 
-This project is a starting point for a Flutter application.
+---
+# Home Page:
+---
 
-A few resources to get you started if this is your first Flutter project:
+[Home_Page](/myapp/picture_git_md/01_home_page.jpeg)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+---
+# Side Bar:
+---
+
+[side](/myapp/picture_git_md/09_side_bar.jpeg)
+
+
+---
+# Welcome Page:
+---
+
+[welcome](/myapp/picture_git_md/11_welcome_page.jpeg)
+
+
+---
+# Sign Up:
+---
+
+[sign_up](/myapp/picture_git_md/10_sign_up.jpeg)
+
+
+---
+# Log In:
+---
+
+[log_in](/myapp/picture_git_md/12_sign_in.jpeg)
+
+
+
+
+
+

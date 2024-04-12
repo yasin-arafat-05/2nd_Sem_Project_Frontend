@@ -309,7 +309,7 @@ class _EditProductState extends State<EditProduct> {
                                 MaterialPageRoute(
                                   builder: (context) {
                                     return const ConnectSideBarAndMenuBar(
-                                      initialIndex: 3,
+                                      initialIndex: 4,
                                     );
                                   },
                                 ),
