@@ -15,9 +15,9 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 </head>
 <body>
 <div class="grid">
-  <img src="/picture_git_md/01_home_page.jpeg"  width="250" height="600">
-  <img src="/picture_git_md/09_side_bar.jpeg" width="250" height="600">
-  <img src="/picture_git_md/11_welcome_page.jpeg" width="250" height="600">
+  <img src="/picture_git_md/01_home_page.jpeg"  width="250" height="550">
+  <img src="/picture_git_md/09_side_bar.jpeg" width="250" height="550">
+  <img src="/picture_git_md/11_welcome_page.jpeg" width="250" height="550">
 </div>
 </body>
 </html>
