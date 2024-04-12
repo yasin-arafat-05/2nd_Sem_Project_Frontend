@@ -27,7 +27,6 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
         <td>
             <img src="/picture_git_md/10_sign_up.jpeg"  width="300" height="600">
          </td>
-
         <td>
             <img src="/picture_git_md/12_sign_in.jpeg"  width="300" height="600">
         </td>
