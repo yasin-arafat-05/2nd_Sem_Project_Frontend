@@ -13,13 +13,14 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
         <td>
             <img src="/picture_git_md/01_home_page.jpeg"  width="300" height="600">
          </td>
+         <br>
         <td>
             <img src="/picture_git_md/09_side_bar.jpeg"  width="300" height="600">
         </td>
+        <br>
         <td>
             <img src="/picture_git_md/11_welcome_page.jpeg"  width="300" height="600">
         </td>
-
     </tr>
 </table>
 
@@ -41,7 +42,6 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
         <td>
             <img src="/picture_git_md/04_product_details.jpeg"  width="300" height="600">
         </td>
-
     </tr>
 </table>
 
