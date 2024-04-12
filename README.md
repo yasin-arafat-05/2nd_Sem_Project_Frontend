@@ -6,38 +6,35 @@
 Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2nd_Sem_Project_Backend)
 
 ---
-# Home Page:
+# Home Page, Side Bar And Welcome Page
 ---
 
 ![Home_Page](/picture_git_md/01_home_page.jpeg)
 
 
-
----
-# Side Bar:
----
-
 ![side](/picture_git_md/09_side_bar.jpeg)
 
-
----
-# Welcome Page:
----
 
 ![welcome](/picture_git_md/11_welcome_page.jpeg)
 
 
 ---
-# Sign Up:
+# Sign Up, Sign In and 
 ---
 
-![sign_up](/picture_git_md/10_sign_up.jpeg)
+<table>
+    <tr >
+        <td>
+            <img src="/picture_git_md/10_sign_up.jpeg"  width="300" height="600">
+         </td>
+
+        <td>
+            <img src="/picture_git_md/12_sign_in.jpeg"  width="300" height="600">
+        </td>
+
+    </tr>
+</table>
 
 
----
-# Log In:
----
-
-<img src="/picture_git_md/12_sign_in.jpeg"  width="300" height="600">
 
 
