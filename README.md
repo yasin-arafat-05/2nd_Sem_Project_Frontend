@@ -59,22 +59,6 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 
 
 
----
-# User Profile, Edit Profile and Product
----
-
-<html>
-<head>
-</head>
-<body>
-<div class="grid">
-  <img src="/picture_git_md/06_user_profile.jpeg"  width="250" height="550">
-  <img src="/picture_git_md/07_edit_profile.jpeg" width="250" height="550">
-  <img src="/picture_git_md/08_edit_product.jpeg" width="250" height="550">
-</div>
-</body>
-</html>
-
 
 ---
 # Cart, Total payment and Product Delete and Edit Option
