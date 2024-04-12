@@ -38,7 +38,7 @@ Backend_code_link: [Backend_Code_On_GitHUB](https://github.com/yasin-arafat-05/2
 # Log In:
 ---
 
-<img src="/picture_git_md/12_sign_in.jpeg"  width="600" height="300">
+<img src="/picture_git_md/12_sign_in.jpeg"  width="600" height="900">
 
 
 
