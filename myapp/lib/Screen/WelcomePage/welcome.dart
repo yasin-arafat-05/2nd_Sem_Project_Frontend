@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:rive/rive.dart';
+import 'package:rive/rive.dart' hide Image;
 import 'package:myapp/Screen/LogIn/log_in_page.dart';
 import 'package:myapp/Screen/SingUp/sing_up_page.dart';
 
@@ -48,25 +48,25 @@ class _WelcomeState extends State<Welcome> {
               padding: const EdgeInsets.only(top: 50, left: 10),
               child: Column(
                 children: [
-                  const Spacer(
-                    flex: 1,
-                  ),
+                  const Spacer(flex: 1),
                   const Text(
                     'GalactiCart',
                     style: TextStyle(
-                        fontFamily: "Poppins", fontSize: 40, height: 1.5),
+                      fontFamily: "Poppins",
+                      fontSize: 40,
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(
                     width: 250,
                     child: Padding(
                       padding: EdgeInsets.only(left: 5, top: 10),
                       child: Text(
-                          'Welcome to GalactiCart, where the cosmic meets commerce! Embark on an interstellar shopping journey with our e-shop platform, offering a stellar array of products from across the universe.'),
+                        'Welcome to GalactiCart, where the cosmic meets commerce! Embark on an interstellar shopping journey with our e-shop platform, offering a stellar array of products from across the universe.',
+                      ),
                     ),
                   ),
-                  const Spacer(
-                    flex: 6,
-                  ),
+                  const Spacer(flex: 6),
                   Column(
                     children: [
                       //----------Button for Login----------------
@@ -74,8 +74,7 @@ class _WelcomeState extends State<Welcome> {
                         onTap: () {
                           _riveAnimationControllerONE.isActive = true;
 
-                          Future.delayed(const Duration(milliseconds: 1000),
-                              () {
+                          Future.delayed(const Duration(milliseconds: 1000), () {
                             showGeneralDialog(
                               //when we press outside of the varrier it will automatically close
                               barrierDismissible: true,
@@ -100,13 +99,8 @@ class _WelcomeState extends State<Welcome> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
-                                      Icons.login,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
+                                    Icon(Icons.login, size: 20),
+                                    SizedBox(width: 5),
                                     Text('Click For Log In'),
                                   ],
                                 ),
@@ -119,8 +113,7 @@ class _WelcomeState extends State<Welcome> {
                       GestureDetector(
                         onTap: () {
                           _riveAnimationControllerTwo.isActive = true;
-                          Future.delayed(const Duration(milliseconds: 1000),
-                              () {
+                          Future.delayed(const Duration(milliseconds: 1000), () {
                             showGeneralDialog(
                               //when we press outside of the varrier it will automatically close
                               barrierDismissible: true,
@@ -150,9 +143,7 @@ class _WelcomeState extends State<Welcome> {
                                       height: 20,
                                       width: 20,
                                     ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
+                                    const SizedBox(width: 5),
                                     const Text('Click For Sign Up'),
                                   ],
                                 ),
@@ -163,9 +154,7 @@ class _WelcomeState extends State<Welcome> {
                       ),
                     ],
                   ),
-                  const Spacer(
-                    flex: 3,
-                  )
+                  const Spacer(flex: 3),
                 ],
               ),
             ),

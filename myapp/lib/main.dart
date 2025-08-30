@@ -19,27 +19,15 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => CategoriesProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => BestSellingProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ProfileProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => FavouriteProductProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => CartProductProvider(),
-        ),
+        ChangeNotifierProvider(create: (context) => CategoriesProvider()),
+        ChangeNotifierProvider(create: (context) => BestSellingProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => FavouriteProductProvider()),
+        ChangeNotifierProvider(create: (context) => CartProductProvider()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Welcome(),
-        ),
+        home: Scaffold(body: Welcome()),
       ),
     );
   }

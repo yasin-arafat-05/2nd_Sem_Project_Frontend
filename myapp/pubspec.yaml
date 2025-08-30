@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ^3.8.1
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,24 +31,22 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  rive: ^0.12.4
-  http: ^1.1.2
-  fluttertoast: ^8.2.4
-  image_picker: ^1.0.6
-  flutter_secure_storage: ^9.0.0
+  cupertino_icons: ^1.0.8
+  rive: ^0.13.20
+  http: ^1.5.0
+  fluttertoast: ^8.2.12
+  image_picker: ^1.2.0
+  flutter_secure_storage: ^9.2.4
   jose: ^0.3.4
   badges: ^3.1.2
-  curved_navigation_bar: ^1.0.3
-  provider: ^6.1.1
+  curved_navigation_bar: ^1.0.6
+  provider: ^6.1.5+1
   csc_picker: ^0.2.7
   iconsax: ^0.0.8
-  carousel_slider: ^4.2.1
-  smooth_page_indicator: ^1.1.0
-  
+  carousel_slider: ^5.1.1
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +57,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -86,13 +84,11 @@ flutter:
     - assets/banner/bannerONE.png
     - assets/banner/bannerTWO.png
 
-  #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware
+  # https://flutter.dev/to/resolution-aware-images
 
   # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
+  # https://flutter.dev/to/asset-from-package
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
@@ -109,6 +105,6 @@ flutter:
       fonts:
         - asset: assets/Fonts/Poppins-Bold.ttf
           weight: 700
-  
+          
   # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+  # see https://flutter.dev/to/font-from-package
