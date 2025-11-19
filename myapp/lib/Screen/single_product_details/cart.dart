@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:http/http.dart' as http;
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
-import 'package:myapp/token_handling.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
+import '../../token_handling.dart';
 
 class Cart {
   final BestSellingProvider bestSellingProvider;

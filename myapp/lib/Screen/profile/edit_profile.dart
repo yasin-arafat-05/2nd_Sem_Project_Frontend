@@ -1,14 +1,14 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, deprecated_member_use
 
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
-import 'package:myapp/Screen/profile/edit_profile_back.dart';
-import 'package:myapp/Screen/profile/profile_pic_back.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import '../ConnectSideBar/connet_side_bar.dart';
+import 'edit_profile_back.dart';
+import 'profile_pic_back.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 final _fromKey = GlobalKey<FormState>();

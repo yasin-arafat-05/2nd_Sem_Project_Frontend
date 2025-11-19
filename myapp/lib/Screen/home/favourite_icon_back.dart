@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 
-import 'package:myapp/ip_address.dart';
+import '../../ip_address.dart';
 import 'package:http/http.dart' as http;
-import 'package:myapp/provider.dart';
+import '../../provider.dart';
 
 class Favourite {
   final BestSellingProvider bestSellingProvider;

@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
-import 'package:myapp/Screen/LogIn/log_in_page.dart';
-import 'package:myapp/Screen/SingUp/sing_up_page.dart';
+import '../LogIn/log_in_page.dart';
+import '../SingUp/sing_up_page.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({super.key});

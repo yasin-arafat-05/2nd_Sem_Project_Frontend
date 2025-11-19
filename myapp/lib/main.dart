@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/WelcomePage/welcome.dart';
-import 'package:myapp/provider.dart';
+import 'Screen/WelcomePage/welcome.dart';
+import 'provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {

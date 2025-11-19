@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
-import 'package:myapp/Screen/add_product/new_product_back.dart';
-import 'package:myapp/alert_mesg.dart';
+import '../ConnectSideBar/connet_side_bar.dart';
+import 'new_product_back.dart';
+import '../../alert_mesg.dart';
 
 class AddNewProduct extends StatefulWidget {
   const AddNewProduct({super.key});

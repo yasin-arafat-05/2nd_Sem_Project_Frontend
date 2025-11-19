@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Screen/single_product_details/cart.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import '../single_product_details/cart.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class SoppingCart extends StatefulWidget {

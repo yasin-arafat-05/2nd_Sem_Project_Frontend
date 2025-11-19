@@ -1,11 +1,11 @@
-// ignore_for_file: file_names, unused_field
+// ignore_for_file: file_names, unused_field, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/profile/delete_item_back.dart';
-import 'package:myapp/Screen/profile/edit_product.dart';
-import 'package:myapp/Screen/profile/edit_profile.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import 'delete_item_back.dart';
+import 'edit_product.dart';
+import 'edit_profile.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class UserProfile extends StatefulWidget {

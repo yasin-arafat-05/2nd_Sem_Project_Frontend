@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:myapp/ip_address.dart';
+import '../../ip_address.dart';
 import 'package:http/http.dart' as http;
 
 class GetFavouriteItem {

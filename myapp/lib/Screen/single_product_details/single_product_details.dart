@@ -1,10 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Constant/constanvalue.dart';
-import 'package:myapp/Screen/single_product_details/cart.dart';
-import 'package:myapp/alert_mesg.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import '../../Constant/constanvalue.dart';
+import 'cart.dart';
+import '../../alert_mesg.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class SingleProductDetails extends StatefulWidget {

@@ -2,13 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Constant/constanvalue.dart';
-import 'package:myapp/Screen/add_product/add_new_product.dart';
-import 'package:myapp/Screen/cart/shoping_cart.dart';
-import 'package:myapp/Screen/home/home.dart';
-import 'package:myapp/Screen/favourtire/favourite.dart';
-import 'package:myapp/Screen/profile/user_Profile.dart';
-import 'package:myapp/Screen/sidebar/sidebar.dart';
+import '../../Constant/constanvalue.dart';
+import '../add_product/add_new_product.dart';
+import '../cart/shoping_cart.dart';
+import '../home/home.dart';
+import '../favourtire/favourite.dart';
+import '../profile/user_Profile.dart';
+import '../sidebar/sidebar.dart';
+import '../chatbot/add_token.dart';
+import '../chatbot/chat.dart';
 
 class ConnectSideBarAndMenuBar extends StatefulWidget {
   const ConnectSideBarAndMenuBar({super.key, required this.initialIndex});
@@ -248,5 +250,134 @@ class ChangeAppBarTitleName {
       default:
         return "Galacticart";
     }
+  }
+}
+
+// ________________________ Chatbot Wrapper (without navbar selection)  ____________________________
+
+class ChatbotWrapper extends StatefulWidget {
+  const ChatbotWrapper({super.key, required this.pageType});
+  final String pageType; // 'add_token' or 'chat'
+
+  @override
+  State<ChatbotWrapper> createState() => _ChatbotWrapperState();
+}
+
+class _ChatbotWrapperState extends State<ChatbotWrapper>
+    with SingleTickerProviderStateMixin {
+  bool isshowSideBar = false;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addListener(() {
+        setState(() {});
+      });
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  String getAppBarTitle() {
+    if (widget.pageType == 'add_token') {
+      return "Add Token";
+    } else if (widget.pageType == 'chat') {
+      return "Chat";
+    }
+    return "Chatbot";
+  }
+
+  Widget getPage() {
+    if (widget.pageType == 'add_token') {
+      return const AddTokenPage();
+    } else if (widget.pageType == 'chat') {
+      return const ChatPage();
+    }
+    return const Center(child: Text("Page not found"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        //--------------sidebar--------------------
+        const AnimatedPositioned(
+          duration: Duration(microseconds: 300),
+          curve: Curves.fastOutSlowIn,
+          child: SideBar(),
+        ),
+        //-------- Other code-----------------
+        Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..setEntry(3, 2, 0.001)
+            ..rotateY(_animation.value - 30 * _animation.value * pi / 180),
+          child: Transform.translate(
+            offset: Offset(_animation.value * 280, 0),
+            child: Transform.scale(
+              scale: 1,
+              child: ClipRRect(
+                child: Scaffold(
+                  //----------------------App Bar -----------------------------
+                  appBar: AppBar(
+                    backgroundColor: const Color.fromARGB(255, 2, 5, 37),
+                    automaticallyImplyLeading: false,
+                    leading: const Text(""),
+                    //--------------------------- Middle part of the app bar ------------------------
+                    title: Center(
+                      child: Text(
+                        getAppBarTitle(),
+                        style: const TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  //---------------------------- Body of the Scaffold --------------
+                  body: getPage(),
+                  // No bottom navigation bar for chatbot pages
+                ),
+              ),
+            ),
+          ),
+        ),
+        // __________________For stack last in fast out_________________________
+        //------------------------Icon Button---------------------------------
+        Positioned(
+          left: isshowSideBar ? 220 : 0,
+          top: isshowSideBar ? 55 : 35,
+          child: IconButton(
+            icon: Icon(
+              isshowSideBar ? Icons.close : Icons.sort,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Future.delayed(const Duration(milliseconds: 300));
+              setState(() {
+                isshowSideBar = !isshowSideBar;
+                if (isshowSideBar) {
+                  _controller.forward();
+                } else {
+                  _controller.reverse();
+                }
+              });
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

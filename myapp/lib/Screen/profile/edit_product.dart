@@ -1,11 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
-import 'package:myapp/Screen/profile/product_pic_back.dart';
-import 'package:myapp/Screen/profile/update_product_back.dart';
-import 'package:myapp/ip_address.dart';
+import '../ConnectSideBar/connet_side_bar.dart';
+import 'product_pic_back.dart';
+import 'update_product_back.dart';
+import '../../ip_address.dart';
 
 class EditProduct extends StatefulWidget {
   EditProduct(

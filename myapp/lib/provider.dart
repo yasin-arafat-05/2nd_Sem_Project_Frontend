@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/cart/cart_items_back.dart';
-import 'package:myapp/Screen/favourtire/get_favourite_product.dart';
-import 'package:myapp/Screen/home/best_selling_back.dart';
-import 'package:myapp/Screen/home/categories_back.dart';
-import 'package:myapp/Screen/LogIn/user_profile_back.dart';
+import 'Screen/cart/cart_items_back.dart';
+import 'Screen/favourtire/get_favourite_product.dart';
+import 'Screen/home/best_selling_back.dart';
+import 'Screen/home/categories_back.dart';
+import 'Screen/LogIn/user_profile_back.dart';
 
 class CategoriesProvider extends ChangeNotifier {
   // আমরা যদি একে empty বা late হিসেবে declear না করি তাইলে
@@ -34,8 +34,9 @@ class BestSellingProvider extends ChangeNotifier {
 
   //___________ when any user update the favourite product _____________________
   void updateFavoriteStatus(int productId, bool isFavorite) {
-    var productIndex =
-        bestProduct.indexWhere((element) => element['id'] == productId);
+    var productIndex = bestProduct.indexWhere(
+      (element) => element['id'] == productId,
+    );
     if (productIndex != -1) {
       bestProduct[productIndex]['favourite'] = isFavorite;
       notifyListeners();
@@ -44,8 +45,9 @@ class BestSellingProvider extends ChangeNotifier {
 
   //________ When any user update the cart status of a product ___________
   void updateCartStatus(int productId, bool inCart) {
-    var productIndex =
-        bestProduct.indexWhere((element) => element['id'] == productId);
+    var productIndex = bestProduct.indexWhere(
+      (element) => element['id'] == productId,
+    );
     if (productIndex != -1) {
       bestProduct[productIndex]['cart'] = inCart;
       notifyListeners();
@@ -88,4 +90,3 @@ class CartProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
-import 'package:myapp/Screen/WelcomePage/welcome.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
-import 'package:myapp/token_handling.dart';
+import '../ConnectSideBar/connet_side_bar.dart';
+import '../WelcomePage/welcome.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
+import '../../token_handling.dart';
 import 'package:provider/provider.dart';
 
 class SideBar extends StatefulWidget {
@@ -206,6 +206,82 @@ class _SideBarState extends State<SideBar> {
                         ),
                       ),
                     ],
+                  ),
+                  //----------------Chatting-----------------------
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24, top: 32),
+                    child: Text(
+                      "Chatting".toUpperCase(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Colors.white38),
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.white24,
+                  ),
+                  //----------------Add Token-----------------------
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ChatbotWrapper(pageType: 'add_token');
+                          },
+                        ),
+                      );
+                    },
+                    child: const ListTile(
+                      leading: SizedBox(
+                        height: 34,
+                        width: 34,
+                        child: Icon(
+                          Iconsax.key,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text(
+                        "Add Token",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 250,
+                    child: Divider(
+                      color: Colors.white24,
+                    ),
+                  ),
+                  //----------------Chat-----------------------
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ChatbotWrapper(pageType: 'chat');
+                          },
+                        ),
+                      );
+                    },
+                    child: const ListTile(
+                      leading: SizedBox(
+                        height: 34,
+                        width: 34,
+                        child: Icon(
+                          Iconsax.message,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text(
+                        "Chat",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
                   //----------------User-----------------------
                   Padding(

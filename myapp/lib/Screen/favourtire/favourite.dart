@@ -1,9 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Screen/home/favourite_icon_back.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import '../home/favourite_icon_back.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatefulWidget {

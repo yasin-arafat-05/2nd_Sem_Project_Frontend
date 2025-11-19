@@ -3,9 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/SingUp/sign_up_back.dart';
-import 'package:myapp/Screen/WelcomePage/welcome.dart';
-import 'package:myapp/alert_mesg.dart';
+import 'sign_up_back.dart';
+import '../WelcomePage/welcome.dart';
+import '../../alert_mesg.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:myapp/ip_address.dart';
+import '../../ip_address.dart';
 
 class BestSelling {
   Future<List<dynamic>> bestSelling() async {

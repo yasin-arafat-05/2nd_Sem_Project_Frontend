@@ -1,12 +1,14 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/Constant/constanvalue.dart';
-import 'package:myapp/Constant/curve_home.dart';
+import '../../Constant/constanvalue.dart';
+import '../../Constant/curve_home.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:myapp/Screen/home/favourite_icon_back.dart';
-import 'package:myapp/Screen/single_product_details/single_product_details.dart';
-import 'package:myapp/ip_address.dart';
-import 'package:myapp/provider.dart';
+import 'favourite_icon_back.dart';
+import '../single_product_details/single_product_details.dart';
+import '../../ip_address.dart';
+import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class HOMETWO extends StatefulWidget {

@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:myapp/token_handling.dart';
-import 'package:myapp/ip_address.dart';
+import '../../token_handling.dart';
+import '../../ip_address.dart';
 
 class UserProfileBack {
   Future<Map<String, dynamic>> GetUserData() async {

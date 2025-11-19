@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:myapp/Screen/LogIn/log_in_back.dart';
-import 'package:myapp/Screen/ConnectSideBar/connet_side_bar.dart';
-import 'package:myapp/alert_mesg.dart';
-import 'package:myapp/token_handling.dart';
+import 'log_in_back.dart';
+import '../ConnectSideBar/connet_side_bar.dart';
+import '../../alert_mesg.dart';
+import '../../token_handling.dart';
 
 class LoginDialog extends StatefulWidget {
   const LoginDialog({super.key});
