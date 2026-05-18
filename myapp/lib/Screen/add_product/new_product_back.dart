@@ -6,8 +6,14 @@ import '../../ip_address.dart';
 import '../../token_handling.dart';
 
 class AddProduct {
-  static Future<String> addProduct(String name, String category, int org_price,
-      int new_price, String pdetails, String date) async {
+  static Future<String> addProduct(
+    String name,
+    String category,
+    int org_price,
+    int new_price,
+    String pdetails,
+    String date,
+  ) async {
     var res = await TokenHandiling.instance.getAccessToken();
 
     /*
@@ -38,7 +44,7 @@ class AddProduct {
         "original_price": org_price,
         "new_price": new_price,
         "product_details": pdetails,
-        "offer_expiration_date": date
+        "offer_expiration_date": date,
       };
 
       // Make authenticated request in body get information
@@ -47,19 +53,16 @@ class AddProduct {
         headers: headers,
         body: jsonEncode(productData),
       );
-
       // Check the response
       if (response.statusCode == 200) {
         // Product added successfully
         print('Product added successfully');
         return response.body;
       } else {
-        // Handle error
         print('Error adding product: ${response.statusCode}');
-        return response.body;
+        return jsonDecode(response.body)['detail'];
       }
     } catch (e) {
-      // Handle exceptions
       print('Error: $e');
       return e.toString();
     }

@@ -34,8 +34,10 @@ class _MessageState extends State<Message> {
 // show message with flutter toast:
 void showMessge(String message) {
   Fluttertoast.showToast(
-      msg: message,
-      backgroundColor: Colors.red,
-      textColor: Colors.white,
-      fontSize: 16.0);
+    msg: message,
+    toastLength: Toast.LENGTH_LONG,
+    backgroundColor: Colors.red,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }

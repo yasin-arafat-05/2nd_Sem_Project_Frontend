@@ -15,6 +15,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  bool _isloading = false;
   final SignUpWithBackend _signUp = SignUpWithBackend();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -175,16 +176,16 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 const SizedBox(height: 20),
                                 //-----------------Get  Locations-----------
-                                ElevatedButton(
-                                  onPressed: () async {
-                                    Position position =
-                                        await getCurrentLocation();
-                                    print("Latitude: ${position.latitude}");
-                                    print("Longitude: ${position.longitude}");
-                                  },
-                                  child: Text('Get Location'),
-                                ),
-                                const SizedBox(height: 20),
+                                // ElevatedButton(
+                                //   onPressed: () async {
+                                //     Position position =
+                                //         await getCurrentLocation();
+                                //     print("Latitude: ${position.latitude}");
+                                //     print("Longitude: ${position.longitude}");
+                                //   },
+                                //   child: Text('Get Location'),
+                                // ),
+                                // const SizedBox(height: 20),
                                 //-----------------submit button-----------
                                 ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
@@ -205,30 +206,38 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () async {
-                                    Future<String> res = _signUp
-                                        .registrationUser(
-                                          _nameController.text,
-                                          _emailController.text,
-                                          _passwordController.text,
-                                        );
-                                    //convert future string to string;
-                                    String result = await res;
-                                    Map<String, dynamic> finalResult = json
-                                        .decode(result);
-                                    showMessge(finalResult["detail"]);
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return const Welcome();
+                                  onPressed: _isloading
+                                      ? null
+                                      : () async {
+                                          setState(() {
+                                            _isloading = true;
+                                          });
+
+                                          Future<String> res = _signUp
+                                              .registrationUser(
+                                                _nameController.text,
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              );
+                                          //convert future string to string;
+                                          String result = await res;
+                                          Map<String, dynamic> finalResult =
+                                              json.decode(result);
+                                          showMessge(finalResult["detail"]);
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return const Welcome();
+                                              },
+                                            ),
+                                          );
                                         },
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_outlined,
-                                    color: Colors.white,
-                                  ),
+                                  icon: _isloading
+                                      ? const SizedBox.shrink()
+                                      : const Icon(
+                                          Icons.arrow_forward_outlined,
+                                          color: Colors.white,
+                                        ),
                                   label: const Text(
                                     "Submit",
                                     style: TextStyle(

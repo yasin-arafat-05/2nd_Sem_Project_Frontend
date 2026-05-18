@@ -12,6 +12,7 @@ class AddNewProduct extends StatefulWidget {
 }
 
 class _AddNewProductState extends State<AddNewProduct> {
+  final _formkey = GlobalKey<FormState>();
   /*
   "name" "category" "original_price" "new_price" "product_details" "offer_expiration_date":
   */
@@ -28,26 +29,21 @@ class _AddNewProductState extends State<AddNewProduct> {
         child: Column(
           children: [
             //----------------Sign in Text and other texts------------------
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
 
             //----------------------From for add new Product------------------------
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Form(
+                key: _formkey,
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //------------Product Name---------------
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _nameController,
                           decoration: const InputDecoration(
@@ -62,15 +58,17 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Empty is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //------------Product Category---------------
+                        const SizedBox(height: 20),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        //------------Product Category---------------
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _categoryController,
                           decoration: const InputDecoration(
@@ -85,15 +83,17 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Empty is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //------------Orginal_Price---------------
+                        const SizedBox(height: 20),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        //------------Orginal_Price---------------
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _orginalController,
                           keyboardType: TextInputType.number,
@@ -109,15 +109,19 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null ||
+                                value == '0' ||
+                                value.trim().isEmpty) {
+                              return "Empty or 0 is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //------------New Price---------------
+                        const SizedBox(height: 20),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        //------------New Price---------------
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _newController,
                           keyboardType: TextInputType.number,
@@ -133,15 +137,19 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null ||
+                                value == '0' ||
+                                value.trim().isEmpty) {
+                              return "Empty or zero is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //------------Product Details---------------
+                        const SizedBox(height: 20),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        //------------Product Details---------------
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _productController,
                           decoration: const InputDecoration(
@@ -156,15 +164,17 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Empty is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //------------Discount Final Date---------------
+                        const SizedBox(height: 20),
 
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        //------------Discount Final Date---------------
+                        const SizedBox(height: 5),
                         TextFormField(
                           controller: _offerController,
                           keyboardType: TextInputType.datetime,
@@ -180,17 +190,19 @@ class _AddNewProductState extends State<AddNewProduct> {
                               ),
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Empty is not allowed!";
+                            }
+                            return null;
+                          },
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         //-----------------submit button-----------
                         ElevatedButton.icon(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0XFFF77D8E),
-                            textStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
+                            textStyle: const TextStyle(color: Colors.white),
                             minimumSize: const Size(double.infinity, 50),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -202,24 +214,32 @@ class _AddNewProductState extends State<AddNewProduct> {
                             ),
                           ),
                           onPressed: () async {
-                            var k = AddProduct.addProduct(
+                            if (_formkey.currentState!.validate()) {
+                              var k = AddProduct.addProduct(
                                 _nameController.text,
                                 _categoryController.text,
                                 int.tryParse(_orginalController.text) ?? 0,
                                 int.tryParse(_newController.text) ?? 0,
                                 _productController.text,
-                                _offerController.text);
-                            String response = await k;
-                            await showDialog(
-                              context: context,
-                              builder: (context) => Message(result: response),
-                            );
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return const ConnectSideBarAndMenuBar(
-                                    initialIndex: 0);
-                              },
-                            ));
+                                _offerController.text,
+                              );
+                              String response = await k;
+                              await showDialog(
+                                context: context,
+                                builder: (context) => Message(result: response),
+                              );
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const ConnectSideBarAndMenuBar(
+                                      initialIndex: 0,
+                                    );
+                                  },
+                                ),
+                              );
+                            } else {
+                              showMessge("Please fill up all.");
+                            }
                           },
                           icon: const Icon(
                             Icons.arrow_forward_outlined,
@@ -227,10 +247,7 @@ class _AddNewProductState extends State<AddNewProduct> {
                           ),
                           label: const Text(
                             "Submit",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           ),
                         ),
                       ],

@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:myapp/alert_mesg.dart';
 import '../ConnectSideBar/connet_side_bar.dart';
 import 'edit_profile_back.dart';
 import 'profile_pic_back.dart';
@@ -51,257 +52,249 @@ class _EditProfileState extends State<EditProfile> {
         elevation: 10,
         title: const Text(
           "Edit User Profile",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
       body: FutureBuilder(
-          future: _profileProvider.profileData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        future: _profileProvider.profileData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            return SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        // ---------------------Profile Picture --------------------
-                        Center(
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundImage: NetworkImage(
-                              "http://${IP.ip}/images/${_profileProvider.businessUser['Business Image']}",
-                            ),
+          return SingleChildScrollView(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 50),
+                      // ---------------------Profile Picture --------------------
+                      Center(
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(
+                            "http://${IP.ip}/images/${_profileProvider.businessUser['Business Image']}",
                           ),
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        //-------Edit Buttion------------
-                        Center(
-                          child: SizedBox(
-                            child: ElevatedButton.icon(
-                              onPressed: () async {
-                                final picker = ImagePicker();
-                                final pickedImage = await picker.pickImage(
-                                    source: ImageSource.gallery);
-                                if (pickedImage != null) {
-                                  _imageFile = File(pickedImage.path);
-                                }
-                                _uploadProfilePicture
-                                    .uploadProfilePicture(_imageFile!);
-                              },
-                              icon: const Icon(
-                                Icons.edit,
-                                color: Color.fromARGB(255, 63, 58, 58),
-                              ),
-                              label: const Text(
-                                "Edit Profile  Picture",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 63, 58, 58),
-                                ),
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    const MaterialStatePropertyAll<Color>(
-                                  Color.fromARGB(255, 230, 222, 222),
-                                ),
-                                shape: MaterialStatePropertyAll<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        //----------- Edit Country, Location and Business Product  ----------
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        //--------------------------- From -----------------
-                        Form(
-                          key: _fromKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // ------------------- Country -----------------
-                              const Text(
-                                "Country : ",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                controller: _country,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder()),
-                                validator: (value) {
-                                  if (value!.length > 20) {
-                                    return "Can't assign more than 20 words!";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              // ------------------- City --------------------
-                              const Text(
-                                "City : ",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                controller: _city,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder()),
-                                validator: (value) {
-                                  if (value!.length > 20) {
-                                    return "Can't assign more than 20 words!";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              // ---------------- Business Name ------------------
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                "Business Name : ",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                controller: _businessName,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder()),
-                                validator: (value) {
-                                  if (value!.length > 20) {
-                                    return "Can't assign more than 20 words!";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              // -------------- Business Description -------------
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Text(
-                                "Business Description : ",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextFormField(
-                                controller: _businessDescription,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                maxLines: 6,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-                                validator: (value) {
-                                  if (value!.length > 200) {
-                                    return "Can't assign more than 200 words!";
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        //---------------------- Submit Button -------------
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
+                      ),
+                      const SizedBox(height: 30),
+                      //-------Edit Buttion------------
+                      Center(
+                        child: SizedBox(
+                          child: ElevatedButton.icon(
                             onPressed: () async {
-                              // ignore: unused_local_variable
-                              String s = await _editProfileBack.editProfileBack(
-                                  _businessName.text,
-                                  _businessDescription.text,
-                                  _city.text,
-                                  _country.text);
-
-                              // ignore: use_build_context_synchronously
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return const ConnectSideBarAndMenuBar(
-                                      initialIndex: 4,
-                                    );
-                                  },
-                                ),
+                              final picker = ImagePicker();
+                              final pickedImage = await picker.pickImage(
+                                source: ImageSource.gallery,
+                              );
+                              if (pickedImage != null) {
+                                _imageFile = File(pickedImage.path);
+                              }
+                              _uploadProfilePicture.uploadProfilePicture(
+                                _imageFile!,
                               );
                             },
-                            style: const ButtonStyle(
-                              backgroundColor: MaterialStatePropertyAll<Color>(
-                                Color.fromARGB(255, 230, 222, 222),
-                              ),
-                              shape: MaterialStatePropertyAll<
-                                  BeveledRectangleBorder>(
-                                BeveledRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                  ),
-                                ),
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Color.fromARGB(255, 63, 58, 58),
+                            ),
+                            label: const Text(
+                              "Edit Profile  Picture",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 63, 58, 58),
                               ),
                             ),
-                            child: const Text(
-                              "Submit",
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  const MaterialStatePropertyAll<Color>(
+                                    Color.fromARGB(255, 230, 222, 222),
+                                  ),
+                              shape:
+                                  MaterialStatePropertyAll<
+                                    RoundedRectangleBorder
+                                  >(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      //----------- Edit Country, Location and Business Product  ----------
+                      const SizedBox(height: 50),
+                      //--------------------------- From -----------------
+                      Form(
+                        key: _fromKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // ------------------- Country -----------------
+                            const Text(
+                              "Country : ",
                               style: TextStyle(
-                                color: Color.fromARGB(255, 63, 58, 58),
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: _country,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value!.length > 20) {
+                                  return "Can't assign more than 20 words!";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            // ------------------- City --------------------
+                            const Text(
+                              "City : ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: _city,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value!.length > 20) {
+                                  return "Can't assign more than 20 words!";
+                                }
+                                return null;
+                              },
+                            ),
+                            // ---------------- Business Name ------------------
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Business Name : ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: _businessName,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value!.length > 20) {
+                                  return "Can't assign more than 20 words!";
+                                }
+                                return null;
+                              },
+                            ),
+                            // -------------- Business Description -------------
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Business Description : ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: _businessDescription,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              maxLines: 6,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value!.length > 200) {
+                                  return "Can't assign more than 200 words!";
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      //---------------------- Submit Button -------------
+                      const SizedBox(height: 40),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            // ignore: unused_local_variable
+                            String s = await _editProfileBack.editProfileBack(
+                              _businessName.text,
+                              _businessDescription.text,
+                              _city.text,
+                              _country.text,
+                            );
+
+                            // send the message to toast
+                            showMessge(s);
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const ConnectSideBarAndMenuBar(
+                                    initialIndex: 4,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(
+                              Color.fromARGB(255, 230, 222, 222),
+                            ),
+                            shape:
+                                MaterialStatePropertyAll<
+                                  BeveledRectangleBorder
+                                >(
+                                  BeveledRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                      topRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                          ),
+                          child: const Text(
+                            "Submit",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 63, 58, 58),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
