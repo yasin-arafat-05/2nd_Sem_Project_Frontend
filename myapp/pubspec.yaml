@@ -74,6 +74,7 @@ dependencies:
     sdk: flutter
   flutter_secure_storage: ^10.2.0
   fluttertoast: ^9.0.0
+  geolocator: ^14.0.1
   http: ^1.6.0
   iconsax: ^0.0.8
   image_picker: ^1.2.2

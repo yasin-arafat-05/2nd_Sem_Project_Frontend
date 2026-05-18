@@ -2,10 +2,11 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'sign_up_back.dart';
-import '../WelcomePage/welcome.dart';
 import '../../alert_mesg.dart';
+import '../WelcomePage/welcome.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -30,9 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
         width: 350,
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(30.0),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
         ),
         /*
           We use scaffold because, we use dialogbox
@@ -53,20 +52,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 Column(
                   children: [
                     //----------------Sign in Text and other texts------------------
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     const Text(
                       'Sign UP',
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 30,
-                      ),
+                      style: TextStyle(fontFamily: "Poppins", fontSize: 30),
                       textAlign: TextAlign.center,
                     ),
                     const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 10,
+                      ),
                       child: Text(
                         "Welcome to Galacticart, where your shopping journey begins in a universe of endless possibilities!",
                         textAlign: TextAlign.center,
@@ -78,9 +74,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Form(
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             //------------User_Name---------------
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,16 +86,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 TextFormField(
                                   controller: _nameController,
                                   keyboardType: TextInputType.text,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
-                                    prefixIcon:
-                                        const Icon(Icons.email_outlined),
+                                    prefixIcon: const Icon(
+                                      Icons.email_outlined,
+                                    ),
                                     //hintText: "Email",
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
@@ -110,9 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             //------------E-mail---------------
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,16 +115,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 TextFormField(
                                   controller: _emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
-                                    prefixIcon:
-                                        const Icon(Icons.email_outlined),
+                                    prefixIcon: const Icon(
+                                      Icons.email_outlined,
+                                    ),
                                     //hintText: "Email",
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
@@ -143,9 +133,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               ],
                             ),
                             //------------passoword---------------
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
 
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,16 +146,15 @@ class _SignUpPageState extends State<SignUpPage> {
                                     textAlign: TextAlign.start,
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 TextFormField(
                                   controller: _passwordController,
                                   obscureText: isShowPassword,
                                   textInputAction: TextInputAction.next,
                                   decoration: InputDecoration(
-                                    prefixIcon:
-                                        const Icon(Icons.password_outlined),
+                                    prefixIcon: const Icon(
+                                      Icons.password_outlined,
+                                    ),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         setState(() {
@@ -186,9 +173,18 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                                const SizedBox(height: 20),
+                                //-----------------Get  Locations-----------
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Position position =
+                                        await getCurrentLocation();
+                                    print("Latitude: ${position.latitude}");
+                                    print("Longitude: ${position.longitude}");
+                                  },
+                                  child: Text('Get Location'),
                                 ),
+                                const SizedBox(height: 20),
                                 //-----------------submit button-----------
                                 ElevatedButton.icon(
                                   style: ElevatedButton.styleFrom(
@@ -196,8 +192,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                     textStyle: const TextStyle(
                                       color: Colors.white,
                                     ),
-                                    minimumSize:
-                                        const Size(double.infinity, 50),
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      50,
+                                    ),
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(10),
@@ -208,24 +206,24 @@ class _SignUpPageState extends State<SignUpPage> {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    Future<String> res =
-                                        _signUp.registrationUser(
-                                            _nameController.text,
-                                            _emailController.text,
-                                            _passwordController.text);
+                                    Future<String> res = _signUp
+                                        .registrationUser(
+                                          _nameController.text,
+                                          _emailController.text,
+                                          _passwordController.text,
+                                        );
                                     //convert future string to string;
                                     String result = await res;
-                                    Map<String, dynamic> finalResult =
-                                        json.decode(result);
-                                    showMessge(
-                                      finalResult["detail"],
+                                    Map<String, dynamic> finalResult = json
+                                        .decode(result);
+                                    showMessge(finalResult["detail"]);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Welcome();
+                                        },
+                                      ),
                                     );
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) {
-                                        return const Welcome();
-                                      },
-                                    ));
                                   },
                                   icon: const Icon(
                                     Icons.arrow_forward_outlined,
@@ -241,9 +239,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
+                            const SizedBox(height: 20),
                             //---------------OR Already have an account-------------
                             //Divider
                             const Row(
@@ -253,13 +249,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                 Expanded(child: Divider()),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             const Text("Already have an account?"),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             const Text("Go to welcome page and happy sign in"),
                           ],
                         ),
@@ -274,9 +266,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: CircleAvatar(
                     maxRadius: 15,
                     backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.close_rounded,
-                    ),
+                    child: Icon(Icons.close_rounded),
                   ),
                 ),
               ],
@@ -286,4 +276,25 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
+
+// ===================== get locations: ================================
+Future<Position> getCurrentLocation() async {
+  LocationPermission permission;
+  permission = await Geolocator.checkPermission();
+
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+  }
+
+  LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+
+  Position position = await Geolocator.getCurrentPosition(
+    locationSettings: locationSettings,
+  );
+
+  return position;
 }
