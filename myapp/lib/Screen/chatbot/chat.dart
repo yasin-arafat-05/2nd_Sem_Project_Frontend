@@ -14,7 +14,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  List<Map<String, String>> _messages = [];
+  final List<Map<String, String>> _messages = [];
   bool _isLoading = false;
 
   @override
@@ -174,7 +174,7 @@ class _ChatPageState extends State<ChatPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withValues(alpha:0.2),
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, -2),

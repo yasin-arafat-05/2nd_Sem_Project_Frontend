@@ -231,7 +231,7 @@ class ChangeAppBarTitleName {
   ChangeAppBarTitleName(int x) {
     n = x;
   }
-  String appBarName(n) {
+  String appBarName(int n) {
     switch (n) {
       case 0:
         return "Galacticart";

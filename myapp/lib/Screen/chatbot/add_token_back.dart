@@ -39,17 +39,14 @@ class AddToken {
 
       // Check the response
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Token created successfully
         print('Token created successfully');
         return response.body;
       } else {
-        // Handle error
         print('Error creating token: ${response.statusCode}');
         print('Response body: ${response.body}');
         return response.body;
       }
     } catch (e) {
-      // Handle exceptions
       print('Error: $e');
       return e.toString();
     }

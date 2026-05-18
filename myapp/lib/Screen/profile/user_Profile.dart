@@ -380,7 +380,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   //------------------------Delete Product --------------------
-  Future<void> deleteProduct(ele) async {
+  Future<void> deleteProduct(int ele) async {
     // ignore: unused_local_variable
     String k = await _deleteProduct.deleteProduct(ele);
     setState(() {

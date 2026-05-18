@@ -46,24 +46,19 @@ class Chat {
         headers: headers,
         body: jsonEncode(chatData),
       );
-
-      // Debug: Print response
       print('Response status code: ${response.statusCode}');
       print('Response body: ${response.body}');
 
       // Check the response
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Message sent successfully
         print('Message sent successfully');
         return response.body;
       } else {
-        // Handle error
         print('Error sending message: ${response.statusCode}');
         print('Response body: ${response.body}');
         return response.body;
       }
     } catch (e) {
-      // Handle exceptions
       print('Error: $e');
       return e.toString();
     }

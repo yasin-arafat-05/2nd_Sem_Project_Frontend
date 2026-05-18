@@ -82,7 +82,7 @@ class _WelcomeState extends State<Welcome> {
                               barrierDismissible: true,
                               barrierLabel: "sign In",
                               context: context,
-                              pageBuilder: (context, __, _) =>
+                              pageBuilder: (context, _, _) =>
                                   const LoginDialog(),
                             );
                           });
@@ -121,7 +121,7 @@ class _WelcomeState extends State<Welcome> {
                               barrierDismissible: true,
                               barrierLabel: "sign Up",
                               context: context,
-                              pageBuilder: (context, __, _) =>
+                              pageBuilder: (context, _, _) =>
                                   const SignUpPage(),
                             );
                           });

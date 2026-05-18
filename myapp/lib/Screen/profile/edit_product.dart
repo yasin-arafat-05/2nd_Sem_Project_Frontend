@@ -10,16 +10,17 @@ import 'update_product_back.dart';
 import '../../ip_address.dart';
 
 class EditProduct extends StatefulWidget {
-  EditProduct(
-      {super.key,
-      required this.name,
-      required this.category,
-      required this.productDetails,
-      required this.expirationDate,
-      required this.image,
-      required this.orginalPrice,
-      required this.newPrice,
-      required this.id});
+  EditProduct({
+    super.key,
+    required this.name,
+    required this.category,
+    required this.productDetails,
+    required this.expirationDate,
+    required this.image,
+    required this.orginalPrice,
+    required this.newPrice,
+    required this.id,
+  });
 
   final String name;
   final String category;
@@ -65,10 +66,7 @@ class _EditProductState extends State<EditProduct> {
         elevation: 10,
         title: const Text(
           "Edit Product",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
       //backgroundColor: Colors.transparent,
@@ -95,13 +93,16 @@ class _EditProductState extends State<EditProduct> {
                     child: ElevatedButton.icon(
                       onPressed: () async {
                         final picker = ImagePicker();
-                        final pickedImage =
-                            await picker.pickImage(source: ImageSource.gallery);
+                        final pickedImage = await picker.pickImage(
+                          source: ImageSource.gallery,
+                        );
                         if (pickedImage != null) {
                           _imageFile = File(pickedImage.path);
                         }
                         uploadProductImage.uploadProductImage(
-                            widget.id, _imageFile!);
+                          widget.id,
+                          _imageFile!,
+                        );
                       },
                       icon: const Icon(
                         Icons.edit,
@@ -132,8 +133,11 @@ class _EditProductState extends State<EditProduct> {
                 Form(
                   key: _fromKeyONE,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 10, right: 10, top: 30),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                      top: 30,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -141,16 +145,17 @@ class _EditProductState extends State<EditProduct> {
                         const Text(
                           "Product Name : ",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: productNameController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
+                            border: OutlineInputBorder(),
+                          ),
                           validator: (value) {
                             if (value!.length > 20) {
                               return "Can't assign more than 20 words!";
@@ -158,9 +163,7 @@ class _EditProductState extends State<EditProduct> {
                             return null;
                           },
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         // ------------------- Product Category --------------------
                         const Text(
                           "Product Category : ",
@@ -169,14 +172,13 @@ class _EditProductState extends State<EditProduct> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: productCategoryController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
+                            border: OutlineInputBorder(),
+                          ),
                           validator: (value) {
                             if (value!.length > 30) {
                               return "Can't assign more than 30 words!";
@@ -185,23 +187,22 @@ class _EditProductState extends State<EditProduct> {
                           },
                         ),
                         // ---------------- New  Price ------------------
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         const Text(
                           "New Price : ",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const Text('New prize should less than orginal price'),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: newPrizeController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: const InputDecoration(
-                              border: OutlineInputBorder()),
+                            border: OutlineInputBorder(),
+                          ),
                           validator: (value) {
                             if (value!.length > 10) {
                               return "Can't assign more than 10 words!";
@@ -210,17 +211,15 @@ class _EditProductState extends State<EditProduct> {
                           },
                         ),
                         // -------------- Orginal prize -------------
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         const Text(
                           "Orginal Prize : ",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: orginalPrizeController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -235,17 +234,15 @@ class _EditProductState extends State<EditProduct> {
                           },
                         ),
                         // -------------- expiration date  -------------
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         const Text(
                           "Expiration Date: ",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: expiration,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -254,17 +251,15 @@ class _EditProductState extends State<EditProduct> {
                           ),
                         ),
                         // -------------- Product  Details -------------
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         const Text(
                           "Product Details: ",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         TextFormField(
                           controller: productDesController,
                           maxLines: 8,
@@ -280,9 +275,7 @@ class _EditProductState extends State<EditProduct> {
                           },
                         ),
                         //---------------------- Submit Button -------------
-                        const SizedBox(
-                          height: 40,
-                        ),
+                        const SizedBox(height: 40),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -292,17 +285,18 @@ class _EditProductState extends State<EditProduct> {
 
                               String s = await widget._updateSingleProduct
                                   .updateSingleProduct(
-                                      widget.id,
-                                      productNameController.text,
-                                      productCategoryController.text,
-                                      productDesController.text,
-                                      expiration.text,
-                                      double.tryParse(
-                                              orginalPrizeController.text) ??
-                                          0.0,
-                                      double.tryParse(
-                                              newPrizeController.text) ??
-                                          0);
+                                    widget.id,
+                                    productNameController.text,
+                                    productCategoryController.text,
+                                    productDesController.text,
+                                    expiration.text,
+                                    double.tryParse(
+                                          orginalPrizeController.text,
+                                        ) ??
+                                        0.0,
+                                    double.tryParse(newPrizeController.text) ??
+                                        0,
+                                  );
                               // ignore: avoid_print
                               print(s);
 
@@ -321,17 +315,19 @@ class _EditProductState extends State<EditProduct> {
                               backgroundColor: MaterialStatePropertyAll<Color>(
                                 Color.fromARGB(255, 230, 222, 222),
                               ),
-                              shape: MaterialStatePropertyAll<
-                                  BeveledRectangleBorder>(
-                                BeveledRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
+                              shape:
+                                  MaterialStatePropertyAll<
+                                    BeveledRectangleBorder
+                                  >(
+                                    BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
                             ),
                             child: const Text(
                               "Submit",
@@ -342,15 +338,13 @@ class _EditProductState extends State<EditProduct> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 100,
-                        ),
+                        const SizedBox(height: 100),
                       ],
                     ),
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
