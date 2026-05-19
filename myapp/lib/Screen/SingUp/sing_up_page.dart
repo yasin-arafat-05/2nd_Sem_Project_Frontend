@@ -6,7 +6,6 @@ import 'sign_up_back.dart';
 import '../../alert_mesg.dart';
 import '../WelcomePage/welcome.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -285,25 +284,4 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-}
-
-// ===================== get locations: ================================
-Future<Position> getCurrentLocation() async {
-  LocationPermission permission;
-  permission = await Geolocator.checkPermission();
-
-  if (permission == LocationPermission.denied) {
-    permission = await Geolocator.requestPermission();
-  }
-
-  LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 100,
-  );
-
-  Position position = await Geolocator.getCurrentPosition(
-    locationSettings: locationSettings,
-  );
-
-  return position;
 }

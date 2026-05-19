@@ -10,6 +10,8 @@ class EditProfileBack {
     String busDes,
     String city,
     String region,
+    String lat,
+    String long,
   ) async {
     const String url = "http://${IP.ip}/update/profile";
     var token = await TokenHandiling.instance.getAccessToken();
@@ -24,7 +26,10 @@ class EditProfileBack {
         "city": city,
         "region": region,
         "business_description": busDes,
+        "lat": lat,
+        "longi": long,
       };
+      //print(updateData);
       final response = await http.put(
         Uri.parse(url),
         headers: header,

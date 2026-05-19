@@ -1,7 +1,8 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers, deprecated_member_use
+// ignore_for_file: avoid_print, no_leading_underscores_for_local_identifiers, deprecated_member_use
 
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:myapp/alert_mesg.dart';
 import '../ConnectSideBar/connet_side_bar.dart';
@@ -11,8 +12,6 @@ import '../../ip_address.dart';
 import '../../provider.dart';
 import 'package:provider/provider.dart';
 
-final _fromKey = GlobalKey<FormState>();
-
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
   @override
@@ -20,12 +19,15 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final _fromKey = GlobalKey<FormState>();
   late ProfileProvider _profileProvider;
   final EditProfileBack _editProfileBack = EditProfileBack();
   final TextEditingController _country = TextEditingController();
   final TextEditingController _city = TextEditingController();
   final TextEditingController _businessName = TextEditingController();
   final TextEditingController _businessDescription = TextEditingController();
+  final TextEditingController _lat = TextEditingController();
+  final TextEditingController _long = TextEditingController();
 
   @override
   void initState() {
@@ -37,6 +39,10 @@ class _EditProfileState extends State<EditProfile> {
     _businessName.text = _profileProvider.businessUser["Business Name"];
     _businessDescription.text =
         _profileProvider.businessUser["Business Description"];
+    // print(_profileProvider.businessUser["lat"]);
+    // print(_profileProvider.businessUser["long"]);
+    _lat.text = _profileProvider.businessUser["lat"].toString();
+    _long.text = _profileProvider.businessUser["long"].toString();
   }
 
   Future<void> functionCall() async {
@@ -229,11 +235,69 @@ class _EditProfileState extends State<EditProfile> {
                                 return null;
                               },
                             ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              "Shop Location: ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            // -------------------------------Get Location----------------
+                            SizedBox(
+                              height: 100,
+                              child: Row(
+                                //crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  // -------------- latitude ---------------
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _lat,
+                                      readOnly: true,
+                                      decoration: const InputDecoration(
+                                        hintText: "Latitude",
+                                        labelText: "Latitude",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+
+                                  SizedBox(width: 10),
+
+                                  //------------- longitute ---------------
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _long,
+                                      readOnly: true,
+                                      decoration: const InputDecoration(
+                                        hintText: "Latitude",
+                                        labelText: "Latitude",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                Position position = await getCurrentLocation();
+                                setState(() {
+                                  _lat.text = position.latitude.toString();
+                                  _long.text = position.longitude.toString();
+                                });
+                                print(position.latitude);
+                                print(position.longitude);
+                              },
+                              label: Text('Get Location'),
+                              icon: Icon(Icons.location_on_outlined),
+                            ),
                           ],
                         ),
                       ),
                       //---------------------- Submit Button -------------
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 50),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -244,6 +308,8 @@ class _EditProfileState extends State<EditProfile> {
                               _businessDescription.text,
                               _city.text,
                               _country.text,
+                              _lat.text,
+                              _long.text,
                             );
 
                             // send the message to toast
@@ -297,4 +363,25 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+}
+
+// ===================== get locations: ================================
+Future<Position> getCurrentLocation() async {
+  LocationPermission permission;
+  permission = await Geolocator.checkPermission();
+
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+  }
+
+  LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
+
+  Position position = await Geolocator.getCurrentPosition(
+    locationSettings: locationSettings,
+  );
+
+  return position;
 }

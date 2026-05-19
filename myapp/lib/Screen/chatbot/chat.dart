@@ -16,6 +16,8 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   final List<Map<String, String>> _messages = [];
   bool _isLoading = false;
+  String _streamingText = "";
+  String _checkpointId = "";
 
   @override
   void dispose() {
@@ -45,45 +47,72 @@ class _ChatPageState extends State<ChatPage> {
 
     // Add user message to chat
     setState(() {
-      _messages.add({
-        'text': userMessage,
-        'sender': 'user',
-      });
+      _messages.add({'text': userMessage, 'sender': 'user'});
       _isLoading = true;
+      _streamingText = "";
     });
 
     _scrollToBottom();
 
-    // Send message to API
-    String checkpointId = ""; // As per user's requirement
-    String response = await Chat.sendMessage(userMessage, checkpointId);
+    // ================= Send message to backend brohter===============
+    Chat.sendMessage(userMessage, _checkpointId).listen(
+      (data) {
+        setState(() {
+          switch (data['type']) {
+            case 'checkpoint':
+              _checkpointId = data['checkpoint_id'] ?? "";
+              break;
 
-    setState(() {
-      _isLoading = false;
-      
-      // Try to parse the response to check for errors
-      try {
-        final responseData = response;
-        // If response contains error, show it
-        if (responseData.contains('error') || responseData.contains('Error')) {
-          _messages.add({
-            'text': 'Error: $responseData',
-            'sender': 'bot',
-          });
-        } else {
-          _messages.add({
-            'text': responseData,
-            'sender': 'bot',
-          });
-        }
-      } catch (e) {
-        _messages.add({
-          'text': response,
-          'sender': 'bot',
+            case 'content':
+              _streamingText += data['content'] ?? "";
+              if (_messages.isNotEmpty && _messages.last['sender'] == 'bot') {
+                _messages.last['text'] = _streamingText;
+              } else {
+                _messages.add({'text': _streamingText, 'sender': 'bot'});
+              }
+              break;
+
+            case 'queue_status':
+              _streamingText = data['message'] ?? "Please wait...";
+              if (_messages.isNotEmpty && _messages.last['sender'] == 'bot') {
+                _messages.last['text'] = _streamingText;
+              } else {
+                _messages.add({'text': _streamingText, 'sender': 'bot'});
+              }
+              break;
+
+            case 'analyzing_requirements':
+              if (_messages.isEmpty || _messages.last['sender'] != 'bot') {
+                _messages.add({'text': '🔍 Analyzing...', 'sender': 'bot'});
+              }
+              break;
+
+            case 'end':
+              _isLoading = false;
+              _streamingText = "";
+              break;
+
+            case 'error':
+              _isLoading = false;
+              _messages.add({
+                'text': '❌ Error: ${data['content']}',
+                'sender': 'bot',
+              });
+              break;
+          }
         });
-      }
-    });
-
+        _scrollToBottom();
+      },
+      onError: (e) {
+        setState(() {
+          _isLoading = false;
+          _messages.add({'text': '❌ Connection error: $e', 'sender': 'bot'});
+        });
+      },
+      onDone: () {
+        setState(() => _isLoading = false);
+      },
+    );
     _scrollToBottom();
   }
 
@@ -100,18 +129,11 @@ class _ChatPageState extends State<ChatPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Iconsax.message,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
+                        Icon(Iconsax.message, size: 64, color: Colors.grey),
                         SizedBox(height: 16),
                         Text(
                           "Start a conversation",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                          ),
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -138,8 +160,9 @@ class _ChatPageState extends State<ChatPage> {
                       final isUser = message['sender'] == 'user';
 
                       return Align(
-                        alignment:
-                            isUser ? Alignment.centerRight : Alignment.centerLeft,
+                        alignment: isUser
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 12),
                           padding: const EdgeInsets.symmetric(
@@ -174,13 +197,14 @@ class _ChatPageState extends State<ChatPage> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withValues(alpha:0.2),
+                  color: Colors.grey.withValues(alpha: 0.2),
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, -2),
                 ),
               ],
             ),
+            // =========================Message send brohter===================
             child: Row(
               children: [
                 Expanded(
@@ -211,10 +235,7 @@ class _ChatPageState extends State<ChatPage> {
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    icon: const Icon(
-                      Iconsax.send_1,
-                      color: Colors.white,
-                    ),
+                    icon: const Icon(Iconsax.send_1, color: Colors.white),
                     onPressed: _sendMessage,
                   ),
                 ),
@@ -226,4 +247,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
