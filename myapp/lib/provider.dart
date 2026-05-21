@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:myapp/Screen/ConnectSideBar/load_chat_message_title_back.dart';
 import 'Screen/cart/cart_items_back.dart';
 import 'Screen/favourtire/get_favourite_product.dart';
 import 'Screen/home/best_selling_back.dart';
@@ -83,10 +86,43 @@ class FavouriteProductProvider extends ChangeNotifier {
 }
 
 class CartProductProvider extends ChangeNotifier {
-  late List<dynamic> cartProduct;
+  List<dynamic> cartProduct = [];
+  bool isloading = false;
+
   Future<void> getCartProductList() async {
-    GetCartItems getCartItems = GetCartItems();
-    cartProduct = await getCartItems.getCartItems();
+    // tells the ui loading started
+    isloading = true;
     notifyListeners();
+    try {
+      GetCartItems getCartItems = GetCartItems();
+      cartProduct = await getCartItems.getCartItems();
+    } catch (e) {
+      print("Error fetching cart: $e");
+    } finally {
+      // data comes successfully tell the dart build the screen
+      isloading = false;
+      notifyListeners();
+    }
+  }
+}
+
+// Notifier for chatting message title:
+// extends -> inheritence:
+class ChatMessageTitle extends ChangeNotifier {
+  List<dynamic> mgsTitle = [];
+  bool isloading = false;
+  Future<void> getMessageTitle() async {
+    isloading = true;
+    notifyListeners();
+    try {
+      LoadChatMessageTitleBack lc = LoadChatMessageTitleBack();
+      mgsTitle = await lc.getMsgTitle();
+      // print(mgsTitle);
+    } catch (e) {
+      print("error in ChatMessageTitle Provider: $e");
+    } finally {
+      isloading = false;
+      notifyListeners();
+    }
   }
 }

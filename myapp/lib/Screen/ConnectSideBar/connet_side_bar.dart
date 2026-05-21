@@ -1,8 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import '../../Constant/constanvalue.dart';
+import '../../provider.dart';
 import '../add_product/add_new_product.dart';
 import '../cart/shoping_cart.dart';
 import '../home/home.dart';
@@ -30,11 +34,13 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
   String appBarTitle = "";
   @override
   void initState() {
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(() {
-        setState(() {});
-      });
+    _controller =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 200),
+        )..addListener(() {
+          setState(() {});
+        });
     _animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
     );
@@ -93,11 +99,7 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
                     ),
                   ),
                   //---------------------------- Body of the Scaffold --------------
-                  body: Stack(
-                    children: [
-                      nb.screens[nb.selectedIndex],
-                    ],
-                  ),
+                  body: Stack(children: [nb.screens[nb.selectedIndex]]),
                   //---------------------- Bottom Navigation Bar ----------------------
                   bottomNavigationBar: NavigationBar(
                     height: 80,
@@ -116,12 +118,8 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
                         NavigationDestinationLabelBehavior.onlyShowSelected,
                     destinations: [
                       //----------------------HOME----------------
-
                       const NavigationDestination(
-                        icon: Icon(
-                          Iconsax.home,
-                          color: Colors.white,
-                        ),
+                        icon: Icon(Iconsax.home, color: Colors.white),
                         label: "",
                         selectedIcon: Icon(
                           Iconsax.home_25,
@@ -130,10 +128,7 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
                       ),
                       //----------------------Cart----------------
                       const NavigationDestination(
-                        icon: Icon(
-                          Iconsax.shopping_cart,
-                          color: Colors.white,
-                        ),
+                        icon: Icon(Iconsax.shopping_cart, color: Colors.white),
                         label: "",
                         selectedIcon: Icon(
                           Iconsax.shopping_cart5,
@@ -142,26 +137,22 @@ class _ConnectSideBarAndMenuBarState extends State<ConnectSideBarAndMenuBar>
                       ),
                       //----------------------Favourite Product ----------------
                       const NavigationDestination(
-                          icon: Icon(
-                            Iconsax.favorite_chart,
-                            color: Colors.white,
-                          ),
-                          selectedIcon: Icon(
-                            Iconsax.favorite_chart5,
-                            color: Color.fromARGB(255, 2, 5, 37),
-                          ),
-                          label: ""),
+                        icon: Icon(Iconsax.favorite_chart, color: Colors.white),
+                        selectedIcon: Icon(
+                          Iconsax.favorite_chart5,
+                          color: Color.fromARGB(255, 2, 5, 37),
+                        ),
+                        label: "",
+                      ),
                       //----------------------Add a New Product ----------------
                       const NavigationDestination(
-                          icon: Icon(
-                            Iconsax.add_circle,
-                            color: Colors.white,
-                          ),
-                          selectedIcon: Icon(
-                            Iconsax.add_circle5,
-                            color: Color.fromARGB(255, 2, 5, 37),
-                          ),
-                          label: ""),
+                        icon: Icon(Iconsax.add_circle, color: Colors.white),
+                        selectedIcon: Icon(
+                          Iconsax.add_circle5,
+                          color: Color.fromARGB(255, 2, 5, 37),
+                        ),
+                        label: "",
+                      ),
                       //----------------------User Profile ----------------
                       NavigationDestination(
                         icon: const Icon(
@@ -268,14 +259,17 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
   bool isshowSideBar = false;
   late AnimationController _controller;
   late Animation<double> _animation;
+  int? _selectedConversationId;
 
   @override
   void initState() {
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(() {
-        setState(() {});
-      });
+    _controller =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 200),
+        )..addListener(() {
+          setState(() {});
+        });
     _animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
     );
@@ -301,7 +295,7 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
     if (widget.pageType == 'add_token') {
       return const AddTokenPage();
     } else if (widget.pageType == 'chat') {
-      return const ChatPage();
+      return ChatPage(conversationId: _selectedConversationId);
     }
     return const Center(child: Text("Page not found"));
   }
@@ -311,9 +305,9 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        //--------------sidebar--------------------
+        //--------------sidebar(Left)--------------------
         const AnimatedPositioned(
-          duration: Duration(microseconds: 300),
+          duration: Duration(milliseconds: 300),
           curve: Curves.fastOutSlowIn,
           child: SideBar(),
         ),
@@ -329,12 +323,22 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
               scale: 1,
               child: ClipRRect(
                 child: Scaffold(
-                  //----------------------App Bar -----------------------------
+                  //------------------------ Chat History Drawer ---------------------
+                  endDrawer: widget.pageType == 'chat'
+                      ? ChatHistoryDrawer(
+                          onConversationSelected: (convId) {
+                            setState(() {
+                              _selectedConversationId = convId;
+                            });
+                            Navigator.pop(context);
+                          },
+                        )
+                      : null,
+                  //---------------------- App Bar -----------------------------
                   appBar: AppBar(
                     backgroundColor: const Color.fromARGB(255, 2, 5, 37),
                     automaticallyImplyLeading: false,
                     leading: const Text(""),
-                    //--------------------------- Middle part of the app bar ------------------------
                     title: Center(
                       child: Text(
                         getAppBarTitle(),
@@ -348,14 +352,12 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
                   ),
                   //---------------------------- Body of the Scaffold --------------
                   body: getPage(),
-                  // No bottom navigation bar for chatbot pages
                 ),
               ),
             ),
           ),
         ),
         // __________________For stack last in fast out_________________________
-        //------------------------Icon Button---------------------------------
         Positioned(
           left: isshowSideBar ? 220 : 0,
           top: isshowSideBar ? 55 : 35,
@@ -365,7 +367,6 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
               color: Colors.white,
             ),
             onPressed: () {
-              Future.delayed(const Duration(milliseconds: 300));
               setState(() {
                 isshowSideBar = !isshowSideBar;
                 if (isshowSideBar) {
@@ -378,6 +379,157 @@ class _ChatbotWrapperState extends State<ChatbotWrapper>
           ),
         ),
       ],
+    );
+  }
+}
+
+// ------------------Drawer for chat history----------------------------
+class ChatHistoryDrawer extends StatefulWidget {
+  final Function(int) onConversationSelected;
+  const ChatHistoryDrawer({super.key, required this.onConversationSelected});
+  @override
+  State<ChatHistoryDrawer> createState() => _ChatHistoryDrawerState();
+}
+
+class _ChatHistoryDrawerState extends State<ChatHistoryDrawer> {
+  @override
+  void initState() {
+    super.initState();
+
+    /*
+    Hey Provider, don't run towards the API just yet! Wait for Flutter to finish 
+    drawing the initial loading screen first. Once the first frame is fully rendered on screen, 
+    only then call the function to fetch data.
+    */
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<ChatMessageTitle>(context, listen: false).getMessageTitle();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.98,
+      child: Drawer(
+        backgroundColor: const Color.fromARGB(255, 2, 5, 37),
+        child: SafeArea(
+          child: Column(
+            children: [
+              const DrawerHeader(
+                child: Center(
+                  child: Text(
+                    'C H A T   H I S T O R Y',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "Poppins",
+                      color: Colors.white70,
+                    ),
+                  ),
+                ),
+              ),
+              // use a consumer to show the real time data:
+              Expanded(
+                child: Consumer<ChatMessageTitle>(
+                  builder: (context, provider, child) {
+                    // while loading show the circlar indecator
+                    if (provider.isloading) {
+                      return const Center(
+                        child: CircularProgressIndicator(color: Colors.white54),
+                      );
+                    }
+                    // load data:
+                    final chatHistoryList = provider.mgsTitle;
+                    // print(chatHistoryList);
+                    // check if the list is empty:
+                    if (chatHistoryList.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          "No ChAt HiStOrY Is FOunD.",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white54,
+                          ),
+                        ),
+                      );
+                    }
+
+                    // now return the actual meslist:
+                    return ListView.builder(
+                      itemCount: chatHistoryList.length,
+                      itemBuilder: (context, index) {
+                        // for every invidual data
+                        final chatItem = chatHistoryList[index];
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.04),
+                            borderRadius: BorderRadius.circular(12.0),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.08),
+                              width: 1,
+                            ),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 2,
+                            ),
+                            leading: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.blueAccent.withValues(
+                                  alpha: 0.12,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.chat_bubble_outline_rounded,
+                                color: Colors.blueAccent,
+                                size: 18,
+                              ),
+                            ),
+                            title: Text(
+                              chatItem["title"] ?? 'Untitled Chat',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Colors.white.withValues(alpha: 0.2),
+                              size: 12,
+                            ),
+                            onTap: () {
+                              //print(chatItem);
+                              int convId = chatItem['converation_id'];
+                              //print(convId);
+                              // LoadChatMsgForThreadIdBack lm =
+                              //     LoadChatMsgForThreadIdBack();
+                              // final data = lm.getConvMsg(convId);
+                              // print('Tapped Thread ID: $data');
+                              widget.onConversationSelected(convId);
+                            },
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

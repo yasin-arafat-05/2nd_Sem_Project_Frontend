@@ -7,9 +7,7 @@ import '../../provider.dart';
 import 'package:provider/provider.dart';
 
 class SoppingCart extends StatefulWidget {
-  const SoppingCart({
-    super.key,
-  });
+  const SoppingCart({super.key});
 
   @override
   State<SoppingCart> createState() => _SoppingCartState();
@@ -19,14 +17,20 @@ class _SoppingCartState extends State<SoppingCart> {
   late CartProductProvider cartProductProvider;
   late BestSellingProvider bestSellingProvider;
   late Cart cart;
+  Future<void>? _cartFuture;
   @override
   void initState() {
     super.initState();
-    cartProductProvider =
-        Provider.of<CartProductProvider>(context, listen: false);
-    bestSellingProvider =
-        Provider.of<BestSellingProvider>(context, listen: false);
-    functionCall();
+    cartProductProvider = Provider.of<CartProductProvider>(
+      context,
+      listen: false,
+    );
+    bestSellingProvider = Provider.of<BestSellingProvider>(
+      context,
+      listen: false,
+    );
+
+    _cartFuture = functionCall();
     cart = Cart(bestSellingProvider);
   }
 
@@ -42,10 +46,13 @@ class _SoppingCartState extends State<SoppingCart> {
         padding: const EdgeInsets.only(left: 5, right: 5),
         child: SingleChildScrollView(
           child: FutureBuilder(
-            future: functionCall(),
+            future: _cartFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                const Center(child: CircularProgressIndicator());
+                return const Padding(
+                  padding: EdgeInsets.only(top: 200),
+                  child: Center(child: CircularProgressIndicator()),
+                );
               }
               return cartProductProvider.cartProduct.isEmpty
                   ? const Center(
@@ -87,8 +94,9 @@ class _SoppingCartState extends State<SoppingCart> {
                                         child: SizedBox(
                                           height: 150,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
+                                            padding: const EdgeInsets.only(
+                                              left: 10,
+                                            ),
                                             child: Image.network(
                                               'http://${IP.ip}/images/${item['Product Image']}',
                                             ),
@@ -150,25 +158,27 @@ class _SoppingCartState extends State<SoppingCart> {
                                                     ),
                                                     //--------------------Delete form favourite list----------------
                                                     CupertinoButton(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(0),
-                                                        child:
-                                                            const CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          maxRadius: 13,
-                                                          child: Icon(
-                                                            Icons.delete,
-                                                            color: Colors.white,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                            0,
                                                           ),
+                                                      child: const CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        maxRadius: 13,
+                                                        child: Icon(
+                                                          Icons.delete,
+                                                          color: Colors.white,
                                                         ),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            cart.removeFromCart(
-                                                                item["id"]);
-                                                          });
-                                                        }),
+                                                      ),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          cart.removeFromCart(
+                                                            item["id"],
+                                                          );
+                                                        });
+                                                      },
+                                                    ),
                                                   ],
                                                 ),
                                               ],

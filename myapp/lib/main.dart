@@ -24,6 +24,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => FavouriteProductProvider()),
         ChangeNotifierProvider(create: (context) => CartProductProvider()),
+        ChangeNotifierProvider(create: (context) => ChatMessageTitle()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
