@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:geolocator/geolocator.dart';
-
 import '../../alert_mesg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class ChatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final isUser = message.sender == 'user';
 
-    // ================= If locaiton _request is occur ==============
+    // ================= If locaiton _request is occur  then the ui ==============
     if (message.text == '__location_request__') {
       return Align(
         alignment: Alignment.centerLeft,
@@ -51,7 +50,7 @@ class ChatBubble extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                '📍 Location প্রয়োজন',
+                '📍 Need Location ',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -60,14 +59,14 @@ class ChatBubble extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               const Text(
-                'কাছের দোকান খুঁজতে location দরকার।',
+                'Need Your Live Location',
                 style: TextStyle(color: Colors.white60, fontSize: 14),
               ),
               const SizedBox(height: 12),
               ElevatedButton.icon(
                 onPressed: onLocationShare,
                 icon: const Icon(Iconsax.location, size: 18),
-                label: const Text('Location Share করুন'),
+                label: const Text('Please Share Your Location'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 2, 5, 37),
                   foregroundColor: Colors.white,
@@ -282,6 +281,15 @@ class _ChatInputState extends State<ChatInput> {
   }
 }
 
+//
+//
+/*
+===================================
+Showing Message From Backend Message
+===================================
+*/
+//
+//
 class ChatPage extends StatefulWidget {
   final int? conversationId;
   const ChatPage({super.key, this.conversationId});
@@ -324,24 +332,21 @@ class _ChatPageState extends State<ChatPage> {
   Future<void> _resumeWithLocation() async {
     try {
       Position position = await getCurrentLocation();
-
       setState(() {
         _waitingForLocation = false;
         _isLoading = true;
         _streamingText = "";
-        // location card টা replace করো
         if (_messages.isNotEmpty &&
             _messages.last.text == '__location_request__') {
           _messages.last.text = '📍 Location shared!';
         }
       });
 
-      Chat.resumeWithLocation(
-        _checkpointId,
-        position.latitude,
-        position.longitude,
-        _currentWorkflowType,
-      ).listen((data) {
+      // resumeWithLocation এর বদলে generic resume
+      Chat.resume(_checkpointId, _currentWorkflowType, {
+        'user_lat': position.latitude,
+        'user_long': position.longitude,
+      }).listen((data) {
         setState(() {
           switch (data['type']) {
             case 'content':
@@ -352,10 +357,32 @@ class _ChatPageState extends State<ChatPage> {
                 _messages.add(ChatMessage(text: _streamingText, sender: 'bot'));
               }
               break;
+
+            // resume এর পরেও node signals আসতে পারে
+            case 'fetching_categories':
+              if (_messages.isEmpty || _messages.last.sender != 'bot') {
+                _messages.add(
+                  ChatMessage(text: '🗂️ Finding categories...', sender: 'bot'),
+                );
+              }
+              break;
+
+            case 'fetching_products':
+              if (_messages.isEmpty || _messages.last.sender != 'bot') {
+                _messages.add(
+                  ChatMessage(
+                    text: '📦 Fetching nearby products...',
+                    sender: 'bot',
+                  ),
+                );
+              }
+              break;
+
             case 'end':
               _isLoading = false;
               _streamingText = "";
               break;
+
             case 'error':
               _isLoading = false;
               _messages.add(
@@ -371,7 +398,7 @@ class _ChatPageState extends State<ChatPage> {
         _waitingForLocation = false;
         _isLoading = false;
         _messages.add(
-          ChatMessage(text: '❌ Location can not be fetch: $e', sender: 'bot'),
+          ChatMessage(text: "Can't Get Location : $e", sender: 'bot'),
         );
       });
     }
@@ -450,7 +477,7 @@ class _ChatPageState extends State<ChatPage> {
     _scrollToBottom();
 
     // ===================================================================
-    // =================== Send Backend Request ==========================
+    // =================== Listen data from backend ==========================
     // ======================== Stream Listen ============================
     Chat.sendMessage(userMessage, _checkpointId, workflowType).listen(
       (data) {
@@ -479,8 +506,10 @@ class _ChatPageState extends State<ChatPage> {
               break;
 
             case 'request_location':
+              print("checkpoint: $data['checkpoint_id]");
               _isLoading = false;
               _waitingForLocation = true;
+              _checkpointId = data['checkpoint_id'];
               _messages.add(
                 ChatMessage(text: '__location_request__', sender: 'bot'),
               );
