@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 import 'package:geolocator/geolocator.dart';
-import '../../alert_mesg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/Screen/chatbot/chat_back.dart';
@@ -129,24 +128,31 @@ class ChatBubble extends StatelessWidget {
 
 /*
 //
-# ================= ChatInput Button =================
+# ================= ChatInput Button and switches langgraph workflows=================
 //
 */
 
 class ChatInput extends StatefulWidget {
   final TextEditingController controller;
   final Function(String workflowType) onSend;
-  const ChatInput({super.key, required this.controller, required this.onSend});
+  final Function(String workflowType)? onWorkflowChanged;
+  final String selectedWorkflow;
+  const ChatInput({
+    super.key,
+    required this.controller,
+    required this.onSend,
+    required this.selectedWorkflow,
+    this.onWorkflowChanged,
+  });
 
   @override
   State<ChatInput> createState() => _ChatInputState();
 }
 
 class _ChatInputState extends State<ChatInput> {
-  String _selectedWorkflow = "social_media_posting";
   void _handleSend() {
     if (widget.controller.text.trim().isNotEmpty) {
-      widget.onSend(_selectedWorkflow);
+      widget.onSend(widget.selectedWorkflow);
     }
   }
 
@@ -164,7 +170,7 @@ class _ChatInputState extends State<ChatInput> {
         children: [
           // <--- select button ➕ --->
           PopupMenuButton<String>(
-            color: Colors.black45,
+            color: Colors.black,
             icon: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
@@ -172,7 +178,7 @@ class _ChatInputState extends State<ChatInput> {
                 shape: BoxShape.circle,
               ),
               child: Icon(
-                _selectedWorkflow == "social_media_posting"
+                widget.selectedWorkflow == "social_media_posting"
                     ? Iconsax.magicpen
                     : Iconsax.search_status,
                 color: Colors.white,
@@ -181,19 +187,9 @@ class _ChatInputState extends State<ChatInput> {
             ),
             tooltip: "Select Workflow",
             onSelected: (String value) {
-              setState(() {
-                _selectedWorkflow = value;
-              });
-
-              //<--------While uesr workflow then send message to the users:------>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "Switched to ${value == 'social_media_posting' ? 'Social Media Posting' : 'Local Search'}",
-                  ),
-                  duration: const Duration(seconds: 1),
-                ),
-              );
+              if (widget.selectedWorkflow != value) {
+                widget.onWorkflowChanged!(value);
+              }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
@@ -239,7 +235,7 @@ class _ChatInputState extends State<ChatInput> {
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => _handleSend(),
               decoration: InputDecoration(
-                hintText: _selectedWorkflow == "social_media_posting"
+                hintText: widget.selectedWorkflow == "social_media_posting"
                     ? "Write social media prompt..."
                     : "Enter product name or details...",
                 hintStyle: const TextStyle(color: Colors.white30),
@@ -290,6 +286,7 @@ Showing Message From Backend Message
 */
 //
 //
+
 class ChatPage extends StatefulWidget {
   final int? conversationId;
   const ChatPage({super.key, this.conversationId});
@@ -309,16 +306,15 @@ class _ChatPageState extends State<ChatPage> {
   String _checkpointId = "";
   bool _waitingForLocation = false;
   String _currentWorkflowType = "social_media_posting";
+
   @override
   void initState() {
     super.initState();
-    // if we get the conversation id then we will load the pages for old history:
     if (widget.conversationId != null) {
       _loadOldChatHistory(widget.conversationId!);
     }
   }
 
-  // chat screen control with appbar:
   @override
   void didUpdateWidget(covariant ChatPage oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -328,7 +324,46 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  // location নিয়ে resume করো
+  @override
+  void dispose() {
+    _messageController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  // <--- ওয়ার্কফ্লো পরিবর্তন হ্যান্ডেল করার নতুন মেথড --->
+  void _handleWorkflowChanged(String newWorkflow) {
+    setState(() {
+      _messages.clear();
+      _checkpointId = "";
+      _streamingText = "";
+      _waitingForLocation = false;
+      _currentWorkflowType = newWorkflow;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Switched to ${newWorkflow == 'social_media_posting' ? 'Social Media Posting' : 'Local Search'} & Started New Chat! 🚀",
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: const Color.fromARGB(255, 2, 5, 37),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  // লোকেশন নিয়ে resume করার লজিক
   Future<void> _resumeWithLocation() async {
     try {
       Position position = await getCurrentLocation();
@@ -342,7 +377,6 @@ class _ChatPageState extends State<ChatPage> {
         }
       });
 
-      // resumeWithLocation এর বদলে generic resume
       Chat.resume(_checkpointId, _currentWorkflowType, {
         'user_lat': position.latitude,
         'user_long': position.longitude,
@@ -358,7 +392,6 @@ class _ChatPageState extends State<ChatPage> {
               }
               break;
 
-            // resume এর পরেও node signals আসতে পারে
             case 'fetching_categories':
               if (_messages.isEmpty || _messages.last.sender != 'bot') {
                 _messages.add(
@@ -404,7 +437,7 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  // ========== Get data from database(Old message loading) ===============
+  // ডাটাবেজ থেকে ওল্ড হিস্ট্রি লোড করার লজিক
   Future<void> _loadOldChatHistory(int convId) async {
     setState(() {
       _isHistoryLoading = true;
@@ -413,7 +446,6 @@ class _ChatPageState extends State<ChatPage> {
     });
 
     try {
-      // get data from backend.
       LoadChatMsgForThreadIdBack lm = LoadChatMsgForThreadIdBack();
       final List<dynamic> historyData = await lm.getConvMsg(convId);
 
@@ -423,45 +455,26 @@ class _ChatPageState extends State<ChatPage> {
         }
         if (historyData.isNotEmpty) {
           _checkpointId = historyData.first['thread_id'] ?? "";
-          print("Thread_id load for old: $_checkpointId");
+          _currentWorkflowType =
+              historyData.first['workflow_type'] ?? "social_media_posting";
+          print(
+            "Thread_id load for old: $_checkpointId  and worflow type: $_currentWorkflowType",
+          );
         }
       });
 
-      // after loding the message scroll downlaod below:
       WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
     } catch (e) {
-      showMessge("Error loading logs: $e");
+      // আপনার কাস্টম শো মেসেজ মেথড
+      print("Error loading logs: $e");
     } finally {
       setState(() => _isHistoryLoading = false);
     }
   }
 
-  @override
-  void dispose() {
-    _messageController.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
-  }
-
-  /*
-  ========================================================
-  ===============SendMessage==============================
-  ========================================================
-  */
-
+  // মেসেজ সেন্ড করার লজিক
   Future<void> _sendMessage(String workflowType) async {
     if (_messageController.text.trim().isEmpty) {
-      showMessge("Please enter a message");
       return;
     }
     _currentWorkflowType = workflowType;
@@ -476,9 +489,6 @@ class _ChatPageState extends State<ChatPage> {
 
     _scrollToBottom();
 
-    // ===================================================================
-    // =================== Listen data from backend ==========================
-    // ======================== Stream Listen ============================
     Chat.sendMessage(userMessage, _checkpointId, workflowType).listen(
       (data) {
         setState(() {
@@ -506,7 +516,7 @@ class _ChatPageState extends State<ChatPage> {
               break;
 
             case 'request_location':
-              print("checkpoint: $data['checkpoint_id]");
+              print("checkpoint: ${data['checkpoint_id']}");
               _isLoading = false;
               _waitingForLocation = true;
               _checkpointId = data['checkpoint_id'];
@@ -515,9 +525,6 @@ class _ChatPageState extends State<ChatPage> {
               );
               break;
 
-            //
-            // ====================== Workflow node ===========================
-            //
             case 'analyzing_requirements':
               if (_messages.isEmpty || _messages.last.sender != 'bot') {
                 _messages.add(
@@ -594,7 +601,6 @@ class _ChatPageState extends State<ChatPage> {
               }
               break;
 
-            // --- প্রোডাক্ট রিসার্চ ওয়ার্কফ্লো নোডসমূহ ---
             case 'fetching_product_info':
               if (_messages.isEmpty || _messages.last.sender != 'bot') {
                 _messages.add(
@@ -668,7 +674,6 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: const Color.fromARGB(255, 43, 30, 30),
       body: Column(
         children: [
-          // Chat messages area
           Expanded(
             child: _isHistoryLoading
                 ? const Center(
@@ -729,9 +734,13 @@ class _ChatPageState extends State<ChatPage> {
                     },
                   ),
           ),
+          // ট্রিগার করার জন্য অন চেইঞ্জড কলব্যাকটি এখানে দেওয়া হয়েছে
           ChatInput(
             controller: _messageController,
+            selectedWorkflow: _currentWorkflowType,
             onSend: (workflowType) => _sendMessage(workflowType),
+            onWorkflowChanged:
+                _handleWorkflowChanged, // <--- হ্যান্ডলার যুক্ত হলো
           ),
         ],
       ),
